@@ -1,0 +1,36 @@
+<Project>
+  <PropertyGroup>
+    <!-- Configuración del Stack -->
+    <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+	<GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- 1. Solución para Source Generators en VS Code -->
+    <!-- Fuerza la creación física de los archivos .g.cs -->
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+    <!-- Los organiza en obj/Generated para no ensuciar la raíz -->
+    <CompilerGeneratedFilesOutputPath>$(MsBuildProjectDirectory)\obj\Generated</CompilerGeneratedFilesOutputPath>
+  </PropertyGroup>
+
+  <!-- 2. Prevención de errores de duplicados -->
+  <ItemGroup>
+    <!-- Evita que el compilador intente compilar dos veces el mismo código generado -->
+    <Compile Remove="$(CompilerGeneratedFilesOutputPath)/**/*.cs" />
+  </ItemGroup>
+
+  <!-- 3. Estándares de Codigo y Analizadores -->
+  <PropertyGroup>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <AnalysisMode>All</AnalysisMode>
+    <!-- Trata los warnings como errores para forzar los estándares que definas -->
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+  </PropertyGroup>
+
+  <!-- 4. Inyección automática de tus herramientas -->
+  <ItemGroup>
+    <!-- Aquí puedes incluir tus paquetes de estándares o el Mediator por defecto -->
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556" PrivateAssets="all" />
+  </ItemGroup>
+</Project>

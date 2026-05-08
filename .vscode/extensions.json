@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "ms-dotnettools.csdevkit", // El "corazón" para .NET (Solution Explorer, etc.)
+    "ms-dotnettools.csharp", // Soporte de lenguaje e IntelliSense
+    "redhat.vscode-yaml", // Validación y autocompletado de archivos YAML
+    "davidmoseley.markdown-lint", // Mantiene tu documentación MD limpia
+    "shane.geckodotnettest", // Interfaz visual para correr tests de .NET
+    "visualstudioexptteam.vscodeintellicode", // IA para autocompletado basado en contexto
+    "humao.rest-client" // Cliente REST para archivos .http/.rest
+  ]
+}

@@ -1,0 +1,18 @@
+@Api_Test_HostAddress = http://localhost:61787/api
+
+POST {{Api_Test_HostAddress}}/My/command
+Accept: application/json
+Content-Type: application/json
+
+
+###
+
+POST {{Api_Test_HostAddress}}/My/query
+Accept: application/json
+Content-Type: application/json
+
+###
+
+POST {{Api_Test_HostAddress}}/My/domainEvent
+Accept: application/json
+Content-Type: application/json

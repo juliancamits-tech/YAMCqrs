@@ -1,0 +1,28 @@
+<Solution>
+    <Folder Name="/Core/">
+        <Project Path="core/YAMCqrs.Core.SourceGeneration/YAMCqrs.Core.SourceGeneration.csproj" />
+        <Project Path="core/YAMCqrs.Core/YAMCqrs.Core.csproj" />
+    </Folder>
+
+    <Folder Name="/ServicesBus/">
+        <Project Path="servicebus/core/YAMCqrs.ServiceBus.Core.SourceGeneration/YAMCqrs.ServiceBus.Core.SourceGeneration.csproj" />
+        <Project Path="servicebus/core/YAMCqrs.ServiceBus.Core/YAMCqrs.ServiceBus.Core.csproj" />
+    </Folder>
+
+    <Folder Name="/BackGroundWorker/">
+        <Project Path="backgroundworker/core/YAMCqrs.BackgroundWorker.Analyzers/YAMCqrs.BackgroundWorker.Analyzers.csproj" />
+        <Project Path="backgroundworker/core/YAMCqrs.BackgroundWorker/YAMCqrs.BackgroundWorker.csproj" />
+    </Folder>
+    <Folder Name="/Solution Items/">
+        <File Path="../README.md" />
+        <File Path=".editorconfig" />
+    </Folder>
+
+    <Folder Name="/Tests/">
+        <Project Path="testapi/Test.Api/Test.Api.csproj" />
+        <Project Path="testapi/Test.Application/Test.Application.csproj" />
+        <Project Path="testapi/Test.Domain/Test.Domain.csproj" />
+        <Project Path="testapi/Test.Infra/Test.Infra.csproj" />
+    </Folder>
+
+</Solution>

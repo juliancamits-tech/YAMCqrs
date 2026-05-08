@@ -1,0 +1,12 @@
+﻿[*.cs]
+
+# SA1200: Using directives should be placed correctly
+dotnet_diagnostic.SA1200.severity = none
+dotnet_diagnostic.SA1600.severity = none
+dotnet_diagnostic.SA1633.severity = none
+
+# CA2007: Consider calling ConfigureAwait on the awaited task
+dotnet_diagnostic.CA2007.severity = none
+
+#CA1812: Avoid uninstantiated internal classes
+dotnet_diagnostic.CA1812.severity = none

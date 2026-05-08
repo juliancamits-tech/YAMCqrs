@@ -1,0 +1,34 @@
+{
+    // Mejora la visualización de archivos MD
+    "markdown.preview.breaks": true,
+    // Esquemas para archivos YAML (CI/CD)
+    "yaml.format.enable": true,
+    "yaml.validate": true,
+    // Configuración específica de .NET
+    "dotnet.unitTestDebuggingOptions": {
+        "stopAtEntry": false
+    },
+    // Para que el Solution Explorer de VS Code se sienta como el de Visual Studio
+    "dotnet.preferredSolution": "src/solution.slnx",
+    "dotnet.server.useOmnisharp": false,
+    "csharp.metadataSymbols.enabled": true,
+    "csharp.enableImportCompletion": true,
+    // Limpieza automática al guardar
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": "explicit"
+    },
+    //Exclusion de carpetas y archivos innecesarios
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "**/bin": true,
+        "**/obj": true,
+        "**/obj/Debug": true,
+        "**/obj/Release": true,
+        "**/obj/*.*": true,
+    }
+}
