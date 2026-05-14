@@ -1,4 +1,5 @@
-﻿using YAMCqrs.Core;
+﻿using Microsoft.Extensions.Logging;
+using YAMCqrs.Core;
 using YAMCqrs.Core.Abstractions.Commands;
 
 namespace Test.Application.DomainEvent;
@@ -6,10 +7,14 @@ namespace Test.Application.DomainEvent;
 /// <summary>
 /// Handler that recibe a event from the service bus.
 /// </summary>
-internal sealed partial class DomainEventSubscribeHanlder() : ICommandHandler<DomainEventSubscribeEvent, bool>
+internal sealed partial class DomainEventSubscribeHanlder(ILogger<DomainEventSubscribeHanlder> logger) : ICommandHandler<DomainEventSubscribeEvent, bool>
 {
     public Task<Result<bool>> HandleAsync(DomainEventSubscribeEvent command, CancellationToken cancellationToken = default)
     {
+        this.LogReception(command.Numerito);
         return Task.FromResult(Result<bool>.Success(true));
     }
+
+    [LoggerMessage(Level = Microsoft.Extensions.Logging.LogLevel.Information, Message = "Se recibio el numero: {numerito}")]
+    private partial void LogReception(int numerito);
 }

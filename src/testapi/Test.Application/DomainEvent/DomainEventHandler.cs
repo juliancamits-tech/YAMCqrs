@@ -1,6 +1,6 @@
 ﻿using YAMCqrs.Core;
 using YAMCqrs.Core.Abstractions.Commands;
-using YAMCqrs.ServiceBus.Core.PublishEvents.Abstractions;
+using YAMCqrs.EventBus.Core.PublishEvents.Abstractions;
 
 namespace Test.Application.DomainEvent;
 

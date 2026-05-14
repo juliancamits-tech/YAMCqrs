@@ -1,3 +1,4 @@
+using Scalar.AspNetCore;
 using Test.Application.Extensions;
 using Test.Infra.Extensions;
 
@@ -10,13 +11,15 @@ try
     var configuration = builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true).AddEnvironmentVariables().Build();
     builder.Services.AddLogging();
 
-    builder.Services.AddApplication(configuration);
+    builder.Services.AddApplication();
     builder.Services.AddInfra(configuration);
 
     var app = builder.Build();
 
     app.UseAuthorization();
     app.MapControllers();
+    app.MapOpenApi();
+    app.MapScalarApiReference();
     app.Run();
 }
 catch (Exception ex)

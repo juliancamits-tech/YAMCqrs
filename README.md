@@ -14,12 +14,21 @@ Hay muchas definiciones sobre esto en los ADR que estan en la carpeta "docs"
 El roadmap que tengo en mente seria.
 
 [X] Paquete Core
+
 [X] Paquete Core de ServiceBus
-[-] Integracion con DotNet.Aspire para facilitar levantar el proyecto local con dependencias como Mongo
-[-] Integracion con Mongo para demostrar como las cosas "En memoria" se percistirian en una BD
+
+[X] Integracion con DotNet.Aspire para facilitar levantar el proyecto local con dependencias como Mongo
+
+[X] Integracion con Mongo para demostrar como las cosas "En memoria" se percistirian en una BD
+
 [-] Integracion con Kafka y RabbitMq
+
 [-] Crear perfile en Nugget.org
+
 [-] Pipeline CI/CD
+
 [-] Primera version oficial en Nugget.org
+
 [-] Configuracion del repo para buenas practicas
+
 [-] Documentacion fuerte en ingles con diagramas

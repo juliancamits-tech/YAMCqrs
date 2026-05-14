@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using System.Runtime.CompilerServices;
 using YAMCqrs.Core;
 using YAMCqrs.Core.Abstractions.Commands;
 

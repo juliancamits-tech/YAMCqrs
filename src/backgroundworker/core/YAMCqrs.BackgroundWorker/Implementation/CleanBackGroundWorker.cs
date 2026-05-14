@@ -76,12 +76,19 @@ public class CleanBackGroundWorker(IServiceProvider serviceProvider) : YABackgro
     /// </summary>
     protected override async Task<bool> ProcessItemAsync(int item, IServiceScope serviceScope, Guid executionId, CancellationToken stoppingToken)
     {
-        var options = serviceScope.ServiceProvider.GetService<IOptionsSnapshot<BackgroundWorkerConfiguration>>();
-        var optValue = options?.Value ?? new BackgroundWorkerConfiguration();
+        var options = serviceScope.ServiceProvider.GetService<IOptions<BackgroundWorkerConfiguration>>();
+        var optValue = options?.Value;
+
+        ArgumentNullException.ThrowIfNull(optValue);
 
         var storage = serviceScope.ServiceProvider.GetRequiredService<IWorkerStorage>();
         await storage.CleanStorageAsync(optValue.GetDateForSuccessfulTaskCleanup(), optValue.GetDateForFailedTaskCleanup());
 
+        return true;
+    }
+
+    protected override bool SkipEmptyResults()
+    {
         return true;
     }
 

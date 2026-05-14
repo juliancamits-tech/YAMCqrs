@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup Label="Nuggets">
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\backgroundworker\core\YAMCqrs.BackgroundWorker\YAMCqrs.BackgroundWorker.csproj" />
+    <ProjectReference Include="..\..\..\core\YAMCqrs.Core\YAMCqrs.Core.csproj" />
+  </ItemGroup>
+
+  <!-- Referencia al proyecto Source Generators (solo para build-time, el pack lo maneja el None item) -->
+  <ItemGroup Label="Source Generators">
+    <ProjectReference Include="..\YAMCqrs.EventBus.Core.SourceGeneration\YAMCqrs.EventBus.Core.SourceGeneration.csproj" PrivateAssets="all" ReferenceOutputAssembly="false" />
+  </ItemGroup>
+
+  <!-- DLLs de Analyzer y Source Generator empaquetadas de forma estática (compatible con no-build) -->
+  <ItemGroup Label="Pack Analyzers">
+    <None Include="..\YAMCqrs.EventBus.Core.SourceGeneration\bin\$(Configuration)\netstandard2.0\YAMCqrs.EventBus.Core.SourceGeneration.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" Condition="Exists('..\YAMCqrs.ServiceBus.Core.SourceGeneration\bin\$(Configuration)\netstandard2.0\YAMCqrs.ServiceBus.Core.SourceGeneration.dll')" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.7" />
+  </ItemGroup>
+
+
+</Project>

@@ -154,7 +154,8 @@ public abstract partial class YABackgroundWorker<TWorkItem>(IServiceProvider ser
                         }
                     }
 
-                    await _workerStorage.AddAsync(workerExecution);
+                    if (SaveEmptyResult(workerExecution))
+                        await _workerStorage.AddAsync(workerExecution);
                 }
 
                 LogSleeping();
@@ -300,6 +301,21 @@ public abstract partial class YABackgroundWorker<TWorkItem>(IServiceProvider ser
     /// </remarks>
     /// <returns>The error threshold percentage (0-100).</returns>
     protected abstract int ErrorThresholdPercentage();
+    /// <summary>
+    /// Set if the batch should be audit when NoItemsToProcess
+    /// True = The batch is NOT saved
+    /// False = The batch is saved
+    /// </summary>
+    /// <returns>True/False</returns>
+    protected abstract bool SkipEmptyResults();
+
+    private bool SaveEmptyResult(WorkerExecution workerExecution)
+    {
+        if (workerExecution.Status != WorkerExecution.ExecutionStatus.NoItemsToProcess)
+            return true;
+
+        return !SkipEmptyResults();
+    }
 
     /// <summary>
     /// Internal method to ensure error threshold is within valid range (0-100).

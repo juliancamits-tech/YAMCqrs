@@ -12,24 +12,32 @@ namespace YAMCqrs.BackgroundWorker.Configuration;
 public class BackgroundWorkerConfiguration
 {
     /// <summary>
-    /// Gets or sets the type of storage to be used for worker executions. The default is InMemoryWorkerStorage, which stores data in memory and is suitable for development and testing. For production scenarios, consider implementing a custom storage solution that persists data to a database or other durable storage mechanism.
-    /// </summary>
-    public Type WorkerStorageType { get; set; } = typeof(InMemoryWorkerStorage);
-
-    /// <summary>
     /// Gets or sets the number of minutes to retain information about successful tasks.
     /// </summary>
-    public int MinutesToKeepSuccesTask { get; set; } = 60;
+    public int MinutesToKeepSuccesTask { get; set; }
     /// <summary>
     /// Gets or sets the number of minutes to retain information about failed tasks.
     /// <remarks>Use static class BackGroundWorkerConfiguration.HourToMinutes and BackGroundWorkerConfiguration.DayToMinutes if you are lazy</remarks>
     /// </summary>
-    public int MinutesToKeepFailedTask { get; set; } = 60;
+    public int MinutesToKeepFailedTask { get; set; }
+
+    public BackgroundWorkerConfiguration()
+    {
+        MinutesToKeepSuccesTask = 60;
+        MinutesToKeepFailedTask = 60;
+    }
+
+    public BackgroundWorkerConfiguration(int minutesToKeepSuccesTask, int minutesToKeepFailedTask)
+    {
+        MinutesToKeepSuccesTask = minutesToKeepSuccesTask;
+        MinutesToKeepFailedTask = minutesToKeepFailedTask;
+    }
+
+
 
     /// <summary>
     /// Convert Hours to Minutes
     /// </summary>
-
     public static int HourToMinutes(int hours)
     {
         return hours * 60;

@@ -1,17 +1,27 @@
 <Solution>
+    <Folder Name="/BackGroundWorker/Core/">
+        <Project Path="backgroundworker/core/YAMCqrs.BackgroundWorker.Analyzers/YAMCqrs.BackgroundWorker.Analyzers.csproj" />
+        <Project Path="backgroundworker/core/YAMCqrs.BackgroundWorker/YAMCqrs.BackgroundWorker.csproj" />
+    </Folder>
+    <Folder Name="/BackGroundWorker/Storage/" />
+    <Folder Name="/BackGroundWorker/Storage/MongoDb/">
+        <Project Path="backgroundworker/storage/mongodb/YAMCqrs.BackgroundWorker.Storage.MondgoDb.Tests/YAMCqrs.BackgroundWorker.Storage.MondgoDb.Tests.csproj" />
+        <Project Path="backgroundworker/storage/mongodb/YAMCqrs.BackgroundWorker.Storage.MondgoDb/YAMCqrs.BackgroundWorker.Storage.MondgoDb.csproj" />
+    </Folder>
     <Folder Name="/Core/">
         <Project Path="core/YAMCqrs.Core.SourceGeneration/YAMCqrs.Core.SourceGeneration.csproj" />
         <Project Path="core/YAMCqrs.Core/YAMCqrs.Core.csproj" />
     </Folder>
 
-    <Folder Name="/ServicesBus/">
-        <Project Path="servicebus/core/YAMCqrs.ServiceBus.Core.SourceGeneration/YAMCqrs.ServiceBus.Core.SourceGeneration.csproj" />
-        <Project Path="servicebus/core/YAMCqrs.ServiceBus.Core/YAMCqrs.ServiceBus.Core.csproj" />
+    <Folder Name="/BackGroundWorker/" />
+    <Folder Name="/EventBus/" />
+    <Folder Name="/EventBus/Core/">
+        <Project Path="eventbus/core/YAMCqrs.EventBus.Core.SourceGeneration/YAMCqrs.EventBus.Core.SourceGeneration.csproj" />
+        <Project Path="EventBus/core/YAMCqrs.EventBus.Core/YAMCqrs.EventBus.Core.csproj" />
     </Folder>
-
-    <Folder Name="/BackGroundWorker/">
-        <Project Path="backgroundworker/core/YAMCqrs.BackgroundWorker.Analyzers/YAMCqrs.BackgroundWorker.Analyzers.csproj" />
-        <Project Path="backgroundworker/core/YAMCqrs.BackgroundWorker/YAMCqrs.BackgroundWorker.csproj" />
+    <Folder Name="/EventBus/Storage/" />
+    <Folder Name="/EventBus/Storage/MongoDb/">
+        <Project Path="eventbus/storage/YAMCqrs.EventBus.Storage.MongoDb/YAMCqrs.EventBus.Storage.MongoDb.csproj" Id="c0e792cc-2f1a-456f-b272-ddba2c159f1e" />
     </Folder>
     <Folder Name="/Solution Items/">
         <File Path="../README.md" />
@@ -21,6 +31,7 @@
     <Folder Name="/Tests/">
         <Project Path="testapi/Test.Api/Test.Api.csproj" />
         <Project Path="testapi/Test.Application/Test.Application.csproj" />
+        <Project Path="testapi/Test.Aspire/Test.Aspire.csproj" Id="9a0f2503-71e0-434b-94b6-9af2fdfc3a62" />
         <Project Path="testapi/Test.Domain/Test.Domain.csproj" />
         <Project Path="testapi/Test.Infra/Test.Infra.csproj" />
     </Folder>
