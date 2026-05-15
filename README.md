@@ -21,7 +21,9 @@ El roadmap que tengo en mente seria.
 
 [X] Integracion con Mongo para demostrar como las cosas "En memoria" se percistirian en una BD
 
-[-] Integracion con Kafka y RabbitMq
+[X] Integracion con Kafka y RabbitMq
+
+[-] Documentacion en ingles con diagramas
 
 [-] Crear perfile en Nugget.org
 
@@ -31,4 +33,4 @@ El roadmap que tengo en mente seria.
 
 [-] Configuracion del repo para buenas practicas
 
-[-] Documentacion fuerte en ingles con diagramas
+

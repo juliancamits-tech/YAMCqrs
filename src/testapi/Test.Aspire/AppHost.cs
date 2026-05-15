@@ -19,8 +19,11 @@ dbGate.WithEnvironment("ENGINE_mongo", "mongo@dbgate-plugin-mongo")
 .WithEnvironment("CONNECTIONS", "mongo")
 .WaitFor(mongo);
 
+var kafka = builder.AddKafka("Kafka").WithKafkaUI();
+
 var api = builder.AddProject<Projects.Test_Api>("Api")
-.WithReference(mongo).WaitFor(mongo);
+.WithReference(mongo).WaitFor(mongo)
+.WithReference(kafka).WaitFor(kafka);
 
 // Add API Reference
 var scalar = builder.AddScalarApiReference()

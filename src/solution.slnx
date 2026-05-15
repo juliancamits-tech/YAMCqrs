@@ -19,6 +19,11 @@
         <Project Path="eventbus/core/YAMCqrs.EventBus.Core.SourceGeneration/YAMCqrs.EventBus.Core.SourceGeneration.csproj" />
         <Project Path="EventBus/core/YAMCqrs.EventBus.Core/YAMCqrs.EventBus.Core.csproj" />
     </Folder>
+    <Folder Name="/EventBus/Providers/" />
+    <Folder Name="/EventBus/Providers/Kafka/">
+        <Project Path="eventbus/provider/kafka/YAMCqrs.EventBus.Provider.Kafka.SourceGeneration/YAMCqrs.EventBus.Provider.Kafka.SourceGeneration.csproj" Id="04baf818-43a8-4027-bd3b-982e8c9a5aa2" />
+        <Project Path="eventbus/provider/kafka/YAMCqrs.EventBus.Provider.Kafka/YAMCqrs.EventBus.Provider.Kafka.csproj" Id="b0a90776-4dd2-412e-95ef-c8e41aefec64" />
+    </Folder>
     <Folder Name="/EventBus/Storage/" />
     <Folder Name="/EventBus/Storage/MongoDb/">
         <Project Path="eventbus/storage/YAMCqrs.EventBus.Storage.MongoDb/YAMCqrs.EventBus.Storage.MongoDb.csproj" Id="c0e792cc-2f1a-456f-b272-ddba2c159f1e" />

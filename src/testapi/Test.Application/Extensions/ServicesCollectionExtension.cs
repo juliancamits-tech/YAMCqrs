@@ -3,6 +3,7 @@ using YAMCqrs.BackgroundWorker.Extensions;
 using YAMCqrs.BackgroundWorker.Storage.MondgoDb;
 using YAMCqrs.Core;
 using YAMCqrs.EventBus.Core;
+using YAMCqrs.EventBus.Provider.Kafka;
 using YAMCqrs.EventBus.Storage.MongoDb.Extensions;
 
 namespace Test.Application.Extensions;
@@ -40,6 +41,13 @@ public static class ServicesCollectionExtension
         {
             ConnectionString = "cs_MongoDb",
             DatabaseName = "TestAppDb",
-        });
+        })
+        .UseKafka(new YAMCqrs.EventBus.Provider.Kafka.Configuration.KafkaConfigurationOptions()
+        {
+            ConnectionString = "cs_Kafka",
+            KafkaClientName = "TestApp",
+            KafkaGroupName = "TestApp",
+        })
+        ;
     }
 }

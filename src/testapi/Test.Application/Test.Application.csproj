@@ -10,6 +10,8 @@
 		<ProjectReference Include="..\..\backgroundworker\core\YAMCqrs.BackgroundWorker\YAMCqrs.BackgroundWorker.csproj" />
 		<ProjectReference Include="..\..\backgroundworker\storage\mongodb\YAMCqrs.BackgroundWorker.Storage.MondgoDb\YAMCqrs.BackgroundWorker.Storage.MondgoDb.csproj" />
 		<ProjectReference Include="..\..\EventBus\core\YAMCqrs.EventBus.Core\YAMCqrs.EventBus.Core.csproj" />
+		
+		<ProjectReference Include="..\..\eventbus\provider\kafka\YAMCqrs.EventBus.Provider.Kafka\YAMCqrs.EventBus.Provider.Kafka.csproj" />
 		<ProjectReference Include="..\..\eventbus\storage\YAMCqrs.EventBus.Storage.MongoDb\YAMCqrs.EventBus.Storage.MongoDb.csproj" />
 		<ProjectReference Include="..\..\core\YAMCqrs.Core\YAMCqrs.Core.csproj" />
 	</ItemGroup>
@@ -17,6 +19,7 @@
 	<ItemGroup Label="Source Generation">
 		<ProjectReference Include="..\..\core\YAMCqrs.Core.SourceGeneration\YAMCqrs.Core.SourceGeneration.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
 		<ProjectReference Include="..\..\eventbus\core\YAMCqrs.EventBus.Core.SourceGeneration\YAMCqrs.EventBus.Core.SourceGeneration.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+		<ProjectReference Include="..\..\eventbus\provider\kafka\YAMCqrs.EventBus.Provider.Kafka.SourceGeneration\YAMCqrs.EventBus.Provider.Kafka.SourceGeneration.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
 	</ItemGroup>
 
 	<ItemGroup Label="Test Reference">
