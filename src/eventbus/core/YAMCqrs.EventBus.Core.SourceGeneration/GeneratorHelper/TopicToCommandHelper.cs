@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 using YAMCqrs.EventBus.Core.SourceGeneration.Info;
 
@@ -20,10 +19,10 @@ internal static class TopicToCommandHelper
         sb.AppendLine(Const.Usings.CoreExtensions);
         sb.AppendLine(Const.Usings.ITopicToCommand);
         sb.AppendLine();
-        
+
         sb.AppendLine(Const.NamespaceName);
         sb.AppendLine();
-        
+
         sb.AppendLine("/// <summary>");
         sb.AppendLine("/// Auto-generated mapping of Service Bus topics to their corresponding event types.");
         sb.AppendLine($"/// Contains {mappings.Count} registered topic mapping(s).");

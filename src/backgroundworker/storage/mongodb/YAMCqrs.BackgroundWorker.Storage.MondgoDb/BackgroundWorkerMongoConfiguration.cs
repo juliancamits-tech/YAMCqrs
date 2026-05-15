@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Configuration;
-using YAMCqrs.BackgroundWorker.Configuration;
 
 namespace YAMCqrs.BackgroundWorker.Storage.MondgoDb;
 

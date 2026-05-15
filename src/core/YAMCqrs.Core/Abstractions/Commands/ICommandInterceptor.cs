@@ -1,5 +1,3 @@
-using YAMCqrs.Core.Abstractions.Queries;
-
 namespace YAMCqrs.Core.Abstractions.Commands;
 
 /// <summary>

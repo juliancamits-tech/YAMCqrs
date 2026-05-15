@@ -1,10 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using YAMCqrs.BackgroundWorker.Extensions;
 using YAMCqrs.BackgroundWorker.Storage.MondgoDb;
 using YAMCqrs.Core;
 using YAMCqrs.EventBus.Core;
-using YAMCqrs.EventBus.Core.Extensions;
 using YAMCqrs.EventBus.Storage.MongoDb.Extensions;
 
 namespace Test.Application.Extensions;

@@ -1,5 +1,3 @@
-using YAMCqrs.BackgroundWorker.Implementation;
-
 namespace YAMCqrs.BackgroundWorker.Configuration;
 
 /// <summary>

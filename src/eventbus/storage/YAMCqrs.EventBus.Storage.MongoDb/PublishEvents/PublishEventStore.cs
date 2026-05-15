@@ -2,7 +2,6 @@
 using YAMCqrs.EventBus.Core;
 using YAMCqrs.EventBus.Core.PublishEvents.Abstractions;
 using YAMCqrs.EventBus.Core.PublishEvents.Domain;
-using YAMCqrs.EventBus.Storage.MongoDb;
 
 namespace YAMCqrs.EventBus.Storage.MongoDb.PublishEvents;
 
