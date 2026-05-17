@@ -81,9 +81,9 @@ internal class InMemoryWorkerStorage : IWorkerStorage
         if (!_executions.TryGetValue(workerName, out var workerExecutions))
             return Task.FromResult<WorkerExecution?>(null);
 
-        var execution = workerExecutions.OrderByDescending(x => x.Value.ExecutionStartTime).LastOrDefault();
+        var execution = workerExecutions.Values.MaxBy(x => x.ExecutionStartTime);
 
-        return Task.FromResult(execution.Value ?? null);
+        return Task.FromResult<WorkerExecution?>(execution);
     }
 
     /// <summary>
@@ -96,7 +96,7 @@ internal class InMemoryWorkerStorage : IWorkerStorage
 
         foreach (var worker in _executions)
         {
-            var lastExecution = worker.Value.OrderByDescending(e => e.Value.ExecutionStartTime).FirstOrDefault().Value;
+            var lastExecution = worker.Value.Values.MaxBy(e => e.ExecutionStartTime);
             if (lastExecution != null)
             {
                 result.Add(lastExecution);

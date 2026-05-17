@@ -23,11 +23,6 @@ internal class PublishStoredEventDocument
     public string EventType { get; set; } = string.Empty;
 
     /// <summary>
-    /// The source of the event.
-    /// </summary>
-    public string EventSource { get; set; } = string.Empty;
-
-    /// <summary>
     /// The destination for the event (Internal or external system). Stored as string for flexibility.
     /// </summary>
     [BsonRepresentation(BsonType.String)]

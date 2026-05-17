@@ -37,7 +37,6 @@ internal static class PublishEventMapper
         (
             id: document.Id,
             eventType: document.EventType,
-            eventSource: document.EventSource,
             eventDestination: document.EventDestination,
             routingKey: document.RoutingKey,
             payload: document.Value,

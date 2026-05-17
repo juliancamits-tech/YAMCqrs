@@ -4,6 +4,9 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+
+    <ProjectType>Package</ProjectType>
+    <PackageId>YAMCqrs.BackgroundWorker</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,7 +15,7 @@
     <Folder Include="Extensions\" />
     <Folder Include="Implementation\" />
   </ItemGroup>
-	
+
   <ItemGroup Label="External Nuggets">
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.2" />

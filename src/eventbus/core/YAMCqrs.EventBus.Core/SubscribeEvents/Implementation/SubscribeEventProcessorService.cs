@@ -91,7 +91,7 @@ internal partial class SubscribeEventProcessorService(
 
     protected override int ParallelismDegree()
     {
-        return _config.ConcurrentWorkers;
+        return _config.GetConcurrentWorkers();
     }
 
     protected override int ErrorThresholdPercentage()

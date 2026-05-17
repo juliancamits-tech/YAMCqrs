@@ -4,6 +4,9 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+
+    <ProjectType>Package</ProjectType>
+    <PackageId>YAMCqrs.EventBus.Storage.MongoDb</PackageId>
   </PropertyGroup>
 
   <ItemGroup>

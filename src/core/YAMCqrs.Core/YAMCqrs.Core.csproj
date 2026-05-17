@@ -4,6 +4,9 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+
+    <ProjectType>Package</ProjectType>
+    <PackageId>YAMCqrs.Core</PackageId>
   </PropertyGroup>
 
   <!-- Referencia al proyecto Source Generators (solo para build-time, el pack lo maneja el None item) -->

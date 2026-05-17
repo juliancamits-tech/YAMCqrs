@@ -77,7 +77,6 @@ public sealed class PublishStoredEvent
     public PublishStoredEvent(
         Guid id,
         string eventType,
-        string eventSource,
         ServiceBusProvider eventDestination,
         string? routingKey,
         string payload,

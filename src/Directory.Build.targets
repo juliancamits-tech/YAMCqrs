@@ -1,0 +1,40 @@
+﻿<Project>
+	<!--FORZAR IsPackable=false para proyectos que no tienen el tag de Package -->
+	<PropertyGroup Condition="'$(ProjectType)' != 'Package'">
+		<IsPackable>false</IsPackable>
+		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+		<IncludeBuildOutput>false</IncludeBuildOutput>
+	</PropertyGroup>
+
+	<!--Begin Package-->
+	<PropertyGroup Condition="'$(ProjectType)' == 'Package'">
+		<!--Datos globales Nuget-->
+		<Version>10.0.0</Version>
+		<Authors>Julian Camits</Authors>
+		<Company></Company>
+		<Copyright>Copyright © $([System.DateTime]::Now.Year)</Copyright>
+		<RepositoryUrl>https://github.com/juliancamits-tech</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<IsPackable>true</IsPackable>
+
+		<!-- Campos específicos por proyecto (definir en cada .csproj) -->
+		<!-- <PackageId>Nombre único del paquete en NuGet.org</PackageId> -->
+		<!-- <Description>Descripción detallada de la funcionalidad del paquete</Description> -->
+		<!-- <PackageTags>palabras;clave;separadas;por;punto-coma</PackageTags> -->
+		<!-- <PackageReleaseNotes>Cambios incluidos en esta versión</PackageReleaseNotes> -->
+
+		<!-- Tratar warnings como errores en proyectos empaquetables -->
+		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+		<!-- Ensure the main assembly is built before packaging -->
+		<GeneratePackageOnBuild Condition="'$(BuildingInsideVisualStudio)' != 'true'">true</GeneratePackageOnBuild>
+	</PropertyGroup>
+
+	<!--Source Link para todos los proyectos empaquetables -->
+	<ItemGroup Condition="'$(ProjectType)' == 'Package'">
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
+	</ItemGroup>
+</Project>

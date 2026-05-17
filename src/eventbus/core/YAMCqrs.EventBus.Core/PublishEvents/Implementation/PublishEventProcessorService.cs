@@ -182,7 +182,7 @@ internal partial class PublishEventProcessorService(
 
     protected override int ParallelismDegree()
     {
-        return _configuration.ConcurrentWorkers;
+        return _configuration.GetConcurrentWorkers();
     }
 
     protected override void FinalCleanUp()
