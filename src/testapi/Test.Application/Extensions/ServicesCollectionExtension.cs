@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
-using YAMCqrs.BackgroundWorker.Extensions;
-using YAMCqrs.BackgroundWorker.Storage.MondgoDb;
+using YAMCqrs.BackgroundWorker.Core.Extensions;
+using YAMCqrs.BackgroundWorker.Storage.MongoDb;
 using YAMCqrs.Core;
 using YAMCqrs.EventBus.Core;
 using YAMCqrs.EventBus.Provider.Kafka;

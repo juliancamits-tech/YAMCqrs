@@ -29,19 +29,19 @@ We are going to create the concept of "Interceptors" — they represent extra lo
 
 The order of execution of interceptors is not based on "injection order" because this can cause problems when using NuGet packages that add their own interceptors. Instead, we will define a two-level ordering system:
 
-- **Layer level**: Defines priority based on the application layer where the interceptor works
-- **Order**: The value within the layer for fine-grained control
+- **Layer level:** Defines priority based on the application layer where the interceptor works
+- **Order:** The value within the layer for fine-grained control
 
 ## Consequences
 
 ### Positives
 
-- **Clear separation**: Interceptors provide a clean way to add cross-cutting concerns
-- **Flexibility**: Can apply to all commands/queries or target specific ones
-- **Explicit lifecycle**: `OnBeforeAsync`, `OnAfterAsync`, and `OnErrorAsync` make the execution point unambiguous
-- **Predictable ordering**: The two-level ordering system prevents conflicts between packages
+- **Clear separation:** Interceptors provide a clean way to add cross-cutting concerns
+- **Flexibility:** Can apply to all commands/queries or target specific ones
+- **Explicit lifecycle:** `OnBeforeAsync`, `OnAfterAsync`, and `OnErrorAsync` make the execution point unambiguous
+- **Predictable ordering:** The two-level ordering system prevents conflicts between packages
 
 ### Negatives
 
-- **Additional abstraction layers**: Developers need to understand the interceptor pattern
-- **Potential complexity**: Too many interceptors can make the flow harder to trace
+- **Additional abstraction layers:** Developers need to understand the interceptor pattern
+- **Potential complexity:** Too many interceptors can make the flow harder to trace

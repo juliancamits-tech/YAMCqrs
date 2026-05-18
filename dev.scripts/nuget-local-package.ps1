@@ -4,7 +4,8 @@ $ErrorActionPreference = "Stop"
 # Rutas hardcodeadas a los proyectos a empaquetar (relativas a la raíz)
 $projectsToPack = @(
     ".\src\backgroundworker\core\YAMCqrs.BackgroundWorker\YAMCqrs.BackgroundWorker.csproj" #Core BackgroundWorker
-    ".\src\backgroundworker\storage\mongodb\YAMCqrs.BackgroundWorker.Storage.MondgoDb\YAMCqrs.BackgroundWorker.Storage.MondgoDb.csproj" #BackgroundWorker MongoDB Storage
+    ".\src\backgroundworker\storage\mongodb\YAMCqrs.BackgroundWorker.Storage.MongoDb\YAMCqrs.BackgroundWorker.Storage.MongoDb.csproj" #BackgroundWorker MongoDB Storage
+    ".\src\backgroundworker\storage\mongodb\YAMCqrs.BackgroundWorker.Storage.MongoDb\YAMCqrs.BackgroundWorker.Storage.MongoDb.csproj" #BackgroundWorker MongoDB Storage
     ".\src\core\YAMCqrs.Core\YAMCqrs.Core.csproj" #Core
     ".\src\eventbus\core\YAMCqrs.EventBus.Core\YAMCqrs.EventBus.Core.csproj" #Core EventBus
     ".\src\eventbus\provider\kafka\YAMCqrs.EventBus.Provider.Kafka\YAMCqrs.EventBus.Provider.Kafka.csproj" #EventBus Kafka Provider
@@ -14,6 +15,8 @@ $projectsToPack = @(
 # Configuración común
 $configuration = "Release"
 $packageOutput = ".\nugets"
+
+Remove-Item -Path $packageOutput -Recurse -Force   
 
 # Asegurar que el directorio de salida exista
 if (-not (Test-Path $packageOutput)) {

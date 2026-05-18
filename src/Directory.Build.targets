@@ -14,6 +14,8 @@
 		<Company></Company>
 		<Copyright>Copyright © $([System.DateTime]::Now.Year)</Copyright>
 		<RepositoryUrl>https://github.com/juliancamits-tech</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/juliancamits-tech</PackageProjectUrl>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<RepositoryType>git</RepositoryType>
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 		<EmbedUntrackedSources>true</EmbedUntrackedSources>
@@ -29,6 +31,9 @@
 
 		<!-- Tratar warnings como errores en proyectos empaquetables -->
 		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+		<EnableNETAnalyzers>true</EnableNETAnalyzers>
+		<AnalysisLevel>latest</AnalysisLevel>
+		<AnalysisMode>All</AnalysisMode>
 		<!-- Ensure the main assembly is built before packaging -->
 		<GeneratePackageOnBuild Condition="'$(BuildingInsideVisualStudio)' != 'true'">true</GeneratePackageOnBuild>
 	</PropertyGroup>

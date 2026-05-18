@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+
+		<ProjectType>Package</ProjectType>
+		<PackageId>YAMCqrs.BackgroundWorker.Storage.MongoDb</PackageId>
+		<PackageTags>mongodb;mongodb-driver;dotnet;net;aspnetcore;background-worker;background-service;hosted-service;worker-storage;batch-processing;task-processing;persistence;execution-history;health-checks;cqrs;auditing</PackageTags>
+		<PackageReadmeFile>YAMCqrs.BackgroundWorker.Storage.MongoDb_en.md</PackageReadmeFile>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\..\..\..\docs\packages\YAMCqrs.BackgroundWorker.Storage.MongoDb_en.md" Pack="true" PackagePath="\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="MongoDB.Driver" Version="3.8.1" />
+		<PackageReference Include="SharpCompress" Version="0.48.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\core\YAMCqrs.BackgroundWorker.Core\YAMCqrs.BackgroundWorker.Core.csproj" />
+	</ItemGroup>
+
+</Project>

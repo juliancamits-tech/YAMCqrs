@@ -7,7 +7,14 @@
 
     <ProjectType>Package</ProjectType>
     <PackageId>YAMCqrs.EventBus.Storage.MongoDb</PackageId>
+    <PackageTags>mongodb;eventbus;event-storage;event-persistence;outbox-pattern;inbox-pattern;reliable-messaging;event-driven-architecture;distributed-systems;event-auditing;retry-support;asynchronous-processing;cqrs;dotnet;aspnetcore</PackageTags>
+    <PackageReadmeFile>YAMCqrs.EventBus.Storage.MongoDb_en.md</PackageReadmeFile>
   </PropertyGroup>
+
+
+  <ItemGroup>
+    <None Include="..\..\..\..\docs\packages\YAMCqrs.EventBus.Storage.MongoDb_en.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="MongoDB.Driver" Version="3.8.1" />

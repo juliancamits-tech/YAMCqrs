@@ -5,7 +5,7 @@
     <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	<GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <!-- 1. Solución para Source Generators en VS Code -->
     <!-- Fuerza la creación física de los archivos .g.cs -->
     <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>

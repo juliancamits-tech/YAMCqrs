@@ -1,11 +1,11 @@
 # Command Workflow
 
-Este documento explica como implementar un ICommand, tambien aplica para IQuery con muy simples cambios.
+This document explains how to implement an `ICommand`. The same approach also applies to `IQuery` with only minor changes.
 
-## Creacion del ICommand
+## Creating the ICommand
 
-Creamos el ICommand que va a ser nuestra clase iniciadora con los parametros que hagan falta.
-Es importante que herede la interface ICommand y como T pongamos el tipo de dato que esperamos de respuesta que puede ser un primitivo o una clase.
+Create the `ICommand` that will act as the initiating class with the required parameters.
+It is important that it implements the `ICommand` interface and that the generic type parameter (`T`) specifies the expected response type, which can be either a primitive type or a class.
 
 ```csharp
 using YAMCqrs.Core.Abstractions.Commands;
@@ -22,12 +22,13 @@ public class CreatePersonCommand : ICommand<string>
 }
 ```
 
-## Creacion del Handler
+## Creating the Handler
 
-Creamos una clase que va a ser la responsable de procesar la logica de negocio asociada al comando.
-Es importante que herede de ICommandHandler donde el primer valor es el comando que procesa y el segundo valor es el tipo de dato que devuelve.
-Es importante entender que para NO usar Exceptions para reglas de negocio el Handler devuelve un Result para informar como termino el proceso.
-Para mas informacion del Result ver el [ADR 8](../adr/0008-result-object.md)
+Create a class responsible for processing the business logic associated with the command.
+It is important that it implements `ICommandHandler`, where the first generic argument is the command being processed and the second argument is the return type.
+
+It is also important to understand that, in order to avoid using Exceptions for business rules, the Handler returns a `Result` object to indicate how the process ended.
+For more information about `Result`, see [ADR 8](../adr/0008-result-object.md)
 
 ```csharp
 using YAMCqrs.Core;
@@ -37,24 +38,28 @@ using YAMCqrs.Core.Abstractions.Commands;
 /// Handler for <see cref="CreatePersonCommand"/>.
 /// The class is internal and not directly referenced, but it will be instantiated by the generated DI registration.
 /// </summary>
-internal sealed class CreatePersonCommandHandler(...Posibles parametros sacados del DI) : ICommandHandler<CreatePersonCommand, string>
+internal sealed class CreatePersonCommandHandler(...Possible parameters resolved from DI) : ICommandHandler<CreatePersonCommand, string>
 {
     public Task<Result<string>> HandleAsync(CreatePersonCommand command, CancellationToken cancellationToken = default)
     {
-        // Logica de negocio
+        // Business logic
         return Task.FromResult(Result<string>.Ok(command.Name));
     }
 }
 ```
 
-## Creacion de un Interceptor
+## Creating an Interceptor
 
-Supongamos que tenemos un requerimiento de auditoria extrema donde todo commando debe logear su Request y Response para esto podemos crear un Interceptor.
-Los interceptores cuentan con dos interfaces distintas una Interface que es ICommandInterceptor y una clase abstracta CommandInterceptorBase.
-Se puede usar cualquiera de las dos pero hay que tener encuenta que en base a lo definido en el [ADR 10](../adr/0010-pipeline-interceptor.md) es necesario definir la capa de ejecucion del Interceptor y su orden para que los mismo sea implicitos y no como otras librerias donde se ejecutan por el orden en que fueron inyectados.
+Suppose we have an extreme auditing requirement where every command must log its Request and Response. To achieve this, we can create an Interceptor.
+
+Interceptors provide two different approaches:
+- The `ICommandInterceptor` interface
+- The `CommandInterceptorBase` abstract class
+
+Either approach can be used, but keep in mind that based on what is defined in [ADR 10](../adr/0010-pipeline-interceptor.md), it is necessary to define the interceptor execution layer and order so that execution is explicit and deterministic, unlike other libraries where execution depends on the injection order.
 
 > [!IMPORTANT]
-> Definir las propiedades Layer y Order.
+> Define the `Layer` and `Order` properties.
 
 ```csharp
 /// <summary>
@@ -62,7 +67,7 @@ Se puede usar cualquiera de las dos pero hay que tener encuenta que en base a lo
 /// </summary>
 /// <typeparam name="TCommand">All Commands.</typeparam>
 /// <typeparam name="TResult">With all Results.</typeparam>
-/// <param name="logger">Logger for out the message.</param>
+/// <param name="logger">Logger for output messages.</param>
 internal sealed partial class LoggingCommandInterceptor<TCommand, TResult>(ILogger<LoggingCommandInterceptor<TCommand, TResult>> logger) : ICommandInterceptor<TCommand, TResult>
     where TCommand : ICommand<TResult>
 {
@@ -94,14 +99,14 @@ internal sealed partial class LoggingCommandInterceptor<TCommand, TResult>(ILogg
 
     [LoggerMessage(Level = LogLevel.Error, Message = "Error Command {CommandName}")]
     private partial void LogErrorCommand(string commandName);
+
     #endregion
 }
-
 ```
 
-## Ejecucion del Command
+## Executing the Command
 
-Para ejecutar el comando simplemente hay que utilizar el IDispatcher.
+To execute the command, simply use the `IDispatcher`.
 
 ```csharp
 [Route("api/[controller]")]

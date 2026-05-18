@@ -1,6 +1,20 @@
 # YAMCqrs.EventBus.Storage.MongoDb
 
-Este paquete proporciona una implementación de almacenamiento persistente para el EventBus de YAMCqrs utilizando **MongoDB**. Permite que los eventos de integración y dominio se guarden antes de ser procesados (esto aplica tanto a los mensajes de entrada como de salida).
+Implementación de almacenamiento persistente para `YAMCqrs.EventBus.Core` utilizando **MongoDB**.
+
+> [!IMPORTANT]
+> Este paquete NO utiliza MongoDB como broker de mensajería.
+>
+> MongoDB se utiliza exclusivamente como mecanismo de persistencia para:
+> - almacenar eventos pendientes
+> - desacoplar procesamiento
+> - permitir ejecución en scopes independientes
+> - soportar retries
+> - mantener auditoría y tracking de eventos
+
+El procesamiento real de eventos continúa siendo responsabilidad del provider de mensajería configurado (Kafka, RabbitMQ, etc).
+
+---
 
 ## ⚙️ Instalación
 
@@ -8,42 +22,76 @@ Este paquete proporciona una implementación de almacenamiento persistente para 
 dotnet add package YAMCqrs.EventBus.Storage.MongoDb
 ```
 
+---
+
 ## 🚀 Uso Rápido
 
-Para registrar el almacenamiento de Mongo en tu contenedor de dependencias:
+Registrar MongoDB Storage en el contenedor de dependencias:
 
 ```csharp
 builder.Services.AddEventBus(opt =>
-        {
-          //Configuracion de la libreria base de EventBus
-        })
-        .UseMongoDb(new YAMCqrs.EventBus.Storage.MongoDb.EventBusStorageMongoConfiguration()
-        {
-            ConnectionString = "cs_MongoDb",
-            DatabaseName = "TestAppDb",
-        })
+{
+    // Configuración base del EventBus
+})
+.UseMongoDb(new EventBusStorageMongoConfiguration()
+{
+    ConnectionString = "cs_MongoDb",
+    DatabaseName = "TestAppDb",
+});
 ```
 
 > [!TIP]
-> Al usar como ConnectionString "cs_MongoDb" estamos diciendole a la libreria que dentro del array "ConnectionStrings" busque el valor real en la clave MongoDb segun lo definido en el [ADR 13](../adr/0013-connection-strings.md)
+> Utilizando `"cs_MongoDb"` como ConnectionString, la librería resolverá automáticamente el valor desde `ConnectionStrings:MongoDb` siguiendo [ADR 13](../adr/0013-connection-strings.md).
+
+---
 
 ## ⚙️ Configuración
-- **ConnectionString**: ConnectionString para conectarse a Mongo.
-- **DatabaseName**: Nombre de la BD a utilizar.
 
-## 🛠️ Detalles de Implementación
+### EventBusStorageMongoConfiguration
 
-- **Indices:** Se crean automáticamente.
-- **Tablas:** La instancia de mongo tiene que estar habilitada para crear las Colecciones automaticamente
+- `ConnectionString`
+  Connection string utilizada para conectarse a MongoDB.
 
-## 📋 Dependencias
+- `DatabaseName`
+  Nombre de la base de datos utilizada para persistencia de eventos.
 
-- MongoDB.Driver
-- El proyecto `YAMCqrs.EventBus.Core`
+---
 
-## 💡 Ejemplo de Documento en DB
+## 🛠️ Objetivo Arquitectónico
 
-Los eventos se persisten en la colección `PublishEvents` con la siguiente estructura:
+La persistencia desacoplada permite que el EventBus:
+
+- procese eventos fuera del scope original
+- desacople publicación y procesamiento
+- sobreviva reinicios de aplicación
+- implemente retries seguros
+- mantenga auditoría completa
+- reduzca acoplamiento con el broker
+
+Esto permite implementar patrones similares a:
+- Outbox Pattern
+- Inbox Pattern
+- Event Auditing
+- Reliable Messaging
+
+---
+
+## 📤 Persistencia de Publish Events
+
+Los eventos salientes se almacenan antes de enviarse al broker.
+
+Colección utilizada:
+- `PublishEvents`
+
+Información almacenada:
+- tipo de evento
+- destino
+- payload serializado
+- estado
+- retries
+- timestamps
+
+Ejemplo:
 
 ```json
 {
@@ -59,8 +107,22 @@ Los eventos se persisten en la colección `PublishEvents` con la siguiente estru
 }
 ```
 
+---
 
-Los eventos se persisten en la colección `SubscribeEvents` con la siguiente estructura:
+## 📥 Persistencia de Subscribe Events
+
+Los eventos recibidos desde el broker también son persistidos antes de procesarse.
+
+Colección utilizada:
+- `SubscribeEvents`
+
+Beneficios:
+- reprocesamiento
+- auditoría
+- desacople de recepción y ejecución
+- resiliencia
+
+Ejemplo:
 
 ```json
 {
@@ -80,4 +142,56 @@ Los eventos se persisten en la colección `SubscribeEvents` con la siguiente est
   "SourceStorage": "MongoDb",
   "SourceEvent": "Kafka"
 }
-```json
+```
+
+---
+
+## ⚡ Características Principales
+
+- MongoDB persistence
+- Event auditing
+- Retry support
+- Outbox-like storage
+- Inbox-like storage
+- Reliable event processing
+- Decoupled processing
+- Independent scopes
+- Asynchronous processing
+- Distributed systems support
+- Event tracking
+- Broker-independent persistence
+
+---
+
+## 🛠️ Detalles de Implementación
+
+### Índices automáticos
+
+Los índices necesarios son creados automáticamente al iniciar la aplicación.
+
+---
+
+### Creación automática de colecciones
+
+La instancia de MongoDB debe permitir creación automática de colecciones.
+
+---
+
+### Persistencia desacoplada del broker
+
+La librería no depende del broker específico utilizado.
+
+El storage funciona independientemente de:
+- Kafka
+- RabbitMQ
+- Azure Service Bus
+- AWS SQS/SNS
+- providers custom
+
+---
+
+## 📋 Dependencias
+
+- `MongoDB.Driver`
+- `YAMCqrs.EventBus.Core`
+

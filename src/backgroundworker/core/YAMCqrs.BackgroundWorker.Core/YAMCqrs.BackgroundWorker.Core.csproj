@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <ProjectType>Package</ProjectType>
+    <PackageId>YAMCqrs.BackgroundWorker.Core</PackageId>
+    <PackageTags>dotnet;aspnetcore;background-worker;hosted-service;batch-processing;parallel-processing;health-checks;cqrs</PackageTags>
+    <PackageReadmeFile>YAMCqrs.BackgroundWorker.Core_en.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\..\docs\packages\YAMCqrs.BackgroundWorker.Core_en.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup Label="External Nuggets">
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="10.0.2" />
+  </ItemGroup>
+
+</Project>

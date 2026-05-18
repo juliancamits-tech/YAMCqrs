@@ -16,9 +16,9 @@ All packages in the project will share a unified version number. This approach s
 
 We will use the versioning scheme X.Y.Z, where:
 
-- **X**: Indicates the target .NET version. This is incremented when support for a new major .NET version is added or when breaking changes are introduced that require consumers to update their code.
-- **Y**: Incremented when new public features are added or when there are breaking changes in the public API (e.g., a method signature changes or new required parameters are introduced).
-- **Z**: Incremented for bug fixes and internal changes that do not affect the public API or developer experience.
+- **X:** Indicates the target .NET version. This is incremented when support for a new major .NET version is added or when breaking changes are introduced that require consumers to update their code.
+- **Y:** Incremented when new public features are added or when there are breaking changes in the public API (e.g., a method signature changes or new required parameters are introduced).
+- **Z:** Incremented for bug fixes and internal changes that do not affect the public API or developer experience.
 
 ### Examples
 

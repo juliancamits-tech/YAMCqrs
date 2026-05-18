@@ -7,8 +7,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\backgroundworker\core\YAMCqrs.BackgroundWorker\YAMCqrs.BackgroundWorker.csproj" />
-		<ProjectReference Include="..\..\backgroundworker\storage\mongodb\YAMCqrs.BackgroundWorker.Storage.MondgoDb\YAMCqrs.BackgroundWorker.Storage.MondgoDb.csproj" />
+		<ProjectReference Include="..\..\backgroundworker\core\YAMCqrs.BackgroundWorker.Core\YAMCqrs.BackgroundWorker.Core.csproj" />
+		<ProjectReference Include="..\..\backgroundworker\storage\mongodb\YAMCqrs.BackgroundWorker.Storage.MongoDb\YAMCqrs.BackgroundWorker.Storage.MongoDb.csproj" />
 		<ProjectReference Include="..\..\EventBus\core\YAMCqrs.EventBus.Core\YAMCqrs.EventBus.Core.csproj" />
 		
 		<ProjectReference Include="..\..\eventbus\provider\kafka\YAMCqrs.EventBus.Provider.Kafka\YAMCqrs.EventBus.Provider.Kafka.csproj" />

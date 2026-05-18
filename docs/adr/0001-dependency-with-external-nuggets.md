@@ -12,17 +12,17 @@ When developing the `YACqrs` library, we need to decide how to handle third-part
 
 ### Issues to Consider
 
-1. **Package Weight**: If we include all dependencies in the main package, users will download libraries they don't need
-2. **Version Conflicts**: Different projects may require different versions of the same dependencies
-3. **Flexibility**: Users should be able to choose which technologies to use (MongoDB, SQL Server, Kafka, RabbitMQ, etc.)
-4. **Maintainability**: Updates to external dependencies should not force updates to the CQRS core
+1. **Package Weight:** If we include all dependencies in the main package, users will download libraries they don't need
+2. **Version Conflicts:** Different projects may require different versions of the same dependencies
+3. **Flexibility:** Users should be able to choose which technologies to use (MongoDB, SQL Server, Kafka, RabbitMQ, etc.)
+4. **Maintainability:** Updates to external dependencies should not force updates to the CQRS core
 
 ### Examples of External Dependencies
 
-- **Databases**: MongoDB.Driver, Npgsql, Microsoft.EntityFrameworkCore
-- **Message Brokers**: Confluent.Kafka, RabbitMQ.Client, Azure.Messaging.ServiceBus
-- **Serialization**: Newtonsoft.Json (if a specific version is required)
-- **Caching**: StackExchange.Redis
+- **Databases:** MongoDB.Driver, Npgsql, Microsoft.EntityFrameworkCore
+- **Message Brokers:** Confluent.Kafka, RabbitMQ.Client, Azure.Messaging.ServiceBus
+- **Serialization:** Newtonsoft.Json (if a specific version is required)
+- **Caching:** StackExchange.Redis
 
 ## Decision
 
@@ -69,41 +69,41 @@ Extension packages **can be in the same repository** but **MUST NOT be part of t
 
 ### Positives
 
-1. **Lightweight Main Package**:
+1. **Lightweight Main Package:**
    - Users only download what they need
    - Fast installation for simple projects
    - No unnecessary dependency conflicts
 
-2. **Technological Flexibility**:
+2. **Technological Flexibility:**
    - Users can choose MongoDB, SQL Server, PostgreSQL, etc.
    - Easy to add support for new technologies
    - Not coupled to a specific provider
 
-3. **Better Version Management**:
+3. **Better Version Management:**
    - Hotfixes focused on the technology that needs them
 
-4. **Simpler Development**:
+4. **Simpler Development:**
    - Faster testing without needing to spin up external services
    - Easier onboarding for new developers
 
-5. **Compliance with SOLID Principles**:
-   - **Open/Closed**: Extensible without modifying the core
-   - **Dependency Inversion**: Everything depends on abstractions
-   - **Single Responsibility**: Each package has a clear responsibility
+5. **Compliance with SOLID Principles:**
+   - **Open/Closed:** Extensible without modifying the core
+   - **Dependency Inversion:** Everything depends on abstractions
+   - **Single Responsibility:** Each package has a clear responsibility
 
 ### Negatives
 
-1. **Multiple Packages**:
+1. **Multiple Packages:**
    - Users must install multiple NuGet packages
    - More complexity in the initial installation
-   - **Mitigation**: Clear documentation with installation examples
+   - **Mitigation:** Clear documentation with installation examples
 
-2. **Version Synchronization**:
+2. **Version Synchronization:**
    - Need to coordinate compatible versions between packages
    - Breaking changes in the core affect all extensions
-   - **Mitigation**: Strict semantic versioning and integration testing
+   - **Mitigation:** Strict semantic versioning and integration testing
 
-3. **Code Fragmentation**:
+3. **Code Fragmentation:**
    - Related code is in different projects
    - PRs may require changes in multiple projects
-   - **Mitigation**: Monorepo (all projects in the same repository)
+   - **Mitigation:** Monorepo (all projects in the same repository)

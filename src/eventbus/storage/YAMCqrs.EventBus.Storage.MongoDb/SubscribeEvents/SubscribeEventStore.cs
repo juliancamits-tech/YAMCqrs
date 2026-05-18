@@ -19,7 +19,7 @@ internal class SubscribeEventStore : ISubscribeEventStore
             .Ascending(e => e.ReceivedAt);
 
         // El driver de Mongo maneja la creación de índices de forma idempotente (no hace nada si ya existen)
-        _collection.Indexes.CreateOne(new CreateIndexModel<SubscribeStoredEventDocument>(indexKeysDefinition));
+        _collection.Indexes.CreateOneAsync(new CreateIndexModel<SubscribeStoredEventDocument>(indexKeysDefinition));
     }
 
     public async Task<IEnumerable<SubscribeStoredEvent>> GetPendingEventsAsync(int batchSize = 100, CancellationToken cancellationToken = default)
@@ -37,7 +37,13 @@ internal class SubscribeEventStore : ISubscribeEventStore
 
     public async Task MarkAsFailedAsync(Guid eventId, string error, CancellationToken cancellationToken = default)
     {
-        var filter = Builders<SubscribeStoredEventDocument>.Filter.Eq(x => x.Id, eventId);
+        // Filtramos por ID y aseguramos que el estado siga siendo el inicial (Pending).
+        // Esto evita que si otro proceso ya lo tomó, nosotros lo sobreescribamos.
+        var filter = Builders<SubscribeStoredEventDocument>.Filter.And(
+            Builders<SubscribeStoredEventDocument>.Filter.Eq(x => x.Id, eventId),
+            Builders<SubscribeStoredEventDocument>.Filter.Eq(x => x.Status, EventStatus.Pending)
+        );
+
         var document = await _collection.Find(filter).FirstOrDefaultAsync(cancellationToken);
 
         if (document != null)
@@ -50,7 +56,11 @@ internal class SubscribeEventStore : ISubscribeEventStore
 
     public async Task MarkAsProcessedAsync(Guid eventId, CancellationToken cancellationToken = default)
     {
-        var filter = Builders<SubscribeStoredEventDocument>.Filter.Eq(x => x.Id, eventId);
+        var filter = Builders<SubscribeStoredEventDocument>.Filter.And(
+            Builders<SubscribeStoredEventDocument>.Filter.Eq(x => x.Id, eventId),
+            Builders<SubscribeStoredEventDocument>.Filter.Eq(x => x.Status, EventStatus.Pending)
+        );
+
         var document = await _collection.Find(filter).FirstOrDefaultAsync(cancellationToken);
 
         if (document != null)

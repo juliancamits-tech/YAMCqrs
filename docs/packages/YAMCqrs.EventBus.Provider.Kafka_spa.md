@@ -1,6 +1,12 @@
 # YAMCqrs.EventBus.Provider.Kafka
 
-Este paquete proporciona una implementación de dispersion de Eventos para la libreria EventBus de YAMCqrs utilizando **Kafka**. Permite que los eventos de integración sean enviados y recibidos por este medio.
+Proveedor Kafka para el ecosistema `YAMCqrs.EventBus`.
+
+Este paquete agrega soporte para publicación y consumo de eventos de integración utilizando **Apache Kafka** como broker de mensajería.
+
+La implementación se integra con `YAMCqrs.EventBus.Core` y utiliza una arquitectura desacoplada basada en persistencia, procesamiento asíncrono y workers internos.
+
+---
 
 ## ⚙️ Instalación
 
@@ -8,68 +14,122 @@ Este paquete proporciona una implementación de dispersion de Eventos para la li
 dotnet add package YAMCqrs.EventBus.Provider.Kafka
 ```
 
+---
+
 ## 🚀 Uso Rápido
 
-Para registrar la dispersion por Kafka en tu contenedor de dependencias:
+Registrar Kafka en el contenedor de dependencias:
 
 ```csharp
- builder.Services.AddEventBus(opt =>
-        {
-          //Configuracion de la libreria base de EventBus
-        })
-        .UseKafka(new YAMCqrs.EventBus.Provider.Kafka.Configuration.KafkaConfigurationOptions()
-        {
-            ConnectionString = "cs_Kafka",
-            KafkaClientName = "TestApp",
-            KafkaGroupName = "TestApp",
-        })
-        ;
+builder.Services.AddEventBus(opt =>
+{
+    // Configuración base del EventBus
+})
+.UseKafka(new KafkaConfigurationOptions()
+{
+    ConnectionString = "cs_Kafka",
+    KafkaClientName = "TestApp",
+    KafkaGroupName = "TestApp",
+});
 ```
 
 > [!TIP]
-> Al usar como ConnectionString "cs_Kafka" estamos diciendole a la libreria que dentro del array "ConnectionStrings" busque el valor real en la clave Kafka segun lo definido en el [ADR 13](../adr/0013-connection-strings.md)
+> Utilizando `"cs_Kafka"` como ConnectionString, la librería buscará el valor real dentro de `ConnectionStrings:Kafka` siguiendo [ADR 13](../adr/0013-connection-strings.md).
+
+---
 
 ## ⚙️ Configuración
 
-- **ConnectionString**: String de conexion para Kafka.
-- **KafkaClientName**: Identificado que usa Kafka para temas de log.
-- **KafkaGroupName**: Identificador que usa Kafka para asignar el grupo compartido para leer mensajes del topic.
-- **MaxConcurrentConsumers**: Cantidad de threads que van a estar escuchando mensajes desde Kafka.
+### KafkaConfigurationOptions
 
+- `ConnectionString`
+  Connection string utilizada para conectarse a Kafka.
 
-## 🛠️ Detalles de Implementación
+- `KafkaClientName`
+  Nombre identificador utilizado por Kafka para logs y métricas.
 
-- **Persistencia**: Los mensajes se persisten y otro scope son los que los procesan segun lo defnido en el [ADR 6](../adr/0006-domain-event.md).
-- **Mapeo**: La descarga de mensajes es agnostica a su contenido por lo cual un mensaje encolado en un "mal formato" moriria en la aplicacion y no generaria un loop en la cola del topico para no avanzar el puntero.
-- **Reintentos en conexion**: La libreria de Kafka requiere que todos los topicos a escuchar existan para conectarse, en case que falte alguno se haran reintentos infinitos hasta que se logre la conexion (Queda evidencia en el log de los intentos fallidos).
-- **SourceGeneration**: Este proyecto utiliza SourceGeneration para descubrir todos los Topics de los eventos a escuchar.
+- `KafkaGroupName`
+  Consumer Group utilizado para consumo distribuido de topics.
+
+- `MaxConcurrentConsumers`
+  Cantidad máxima de consumers concurrentes escuchando mensajes.
+
+---
+
+## 🛠️ Características Principales
+
+### Persistencia desacoplada
+
+Los mensajes primero son persistidos y luego procesados en scopes independientes.
+
+Beneficios:
+- resiliencia
+- procesamiento asíncrono
+- desacople de infraestructura
+- retry controlado
+
+---
+
+### Consumo seguro
+
+La descarga de mensajes es agnóstica al contenido.
+
+Si un mensaje posee un formato inválido:
+- el error ocurre dentro de la aplicación
+- no se genera loop infinito en Kafka
+- el offset puede continuar avanzando
+
+Esto evita bloquear permanentemente el topic.
+
+---
+
+### Reintentos automáticos de conexión
+
+Kafka requiere que todos los topics existan antes de iniciar el consumer.
+
+Si algún topic no existe:
+- la conexión seguirá reintentando indefinidamente
+- los errores quedan registrados en logs
+- el sistema se recupera automáticamente cuando el topic aparece
+
+---
+
+### Source Generation
+
+La librería utiliza Source Generators para:
+- descubrir topics automáticamente
+- registrar consumers
+- evitar Reflection
+- mejorar startup performance
+
+---
 
 ## 📋 Dependencias
 
-- Confluent.Kafka
-- El proyecto `YAMCqrs.EventBus.Core`
+- `Confluent.Kafka`
+- `YAMCqrs.EventBus.Core`
 
+---
 
-## Envio de eventos
+# 📤 Publicación de Eventos
 
-Para enviar un evento hace falta que dicho evento herede KafkaPublishEvent y implemente las interfaces requeridas, luego se debe publicar utilizando la interface IEventPublisher
+Para publicar un evento:
+1. Heredar de `KafkaPublishEvent`
+2. Definir el Topic
+3. Utilizar `IEventPublisher`
 
 > [!IMPORTANT]
-> Recordar que lo que se genera es la intencion de enviar el evento, pero el envio real se hace en un scope separado
+> La publicación real ocurre en un scope separado.
+> El handler solamente registra la intención de publicar.
 
-### 💡 Ejemplo como enviar un evento
+---
 
-#### Definicion del evento a enviar
+## 💡 Ejemplo de Evento de Publicación
 
 ```csharp
 internal sealed class MyKafkaPublishEvent : KafkaPublishEvent
 {
     public const string TopicName = "kafka.event.test";
-
-    public MyKafkaPublishEvent()
-    {
-        this.Numerito = RandomNumberGenerator.GetInt32(500);
-    }
 
     public int Numerito { get; init; }
 
@@ -85,57 +145,87 @@ internal sealed class MyKafkaPublishEvent : KafkaPublishEvent
 }
 ```
 
-#### Envio del evento
+---
+
+## 💡 Publicar el Evento
 
 ```csharp
-internal sealed class MyLogicCommandHandler(IEventPublisher eventPublisher) : ICommandHandler<MyLogicCommand, string>
+internal sealed class MyLogicCommandHandler(
+    IEventPublisher eventPublisher)
+    : ICommandHandler<MyLogicCommand, string>
 {
-    public async Task<Result<string>> HandleAsync(MyLogicCommand command, CancellationToken cancellationToken = default)
+    public async Task<Result<string>> HandleAsync(
+        MyLogicCommand command,
+        CancellationToken cancellationToken = default)
     {
-        //Logica de negocios y demas cosas
-
-        //Envio del evento
-        await eventPublisher.PublishAsync(new MyKafkaPublishEvent(), cancellationToken);
+        await eventPublisher.PublishAsync(
+            new MyKafkaPublishEvent(),
+            cancellationToken);
 
         return Result<string>.Ok(command.Name);
     }
 }
 ```
 
-## Recepcion de eventos
+---
 
-Para recibir un evento hace falta que dicho evento herede KafkaSubscribeEvent y implemente le pase al constructor el nombre del topic a escuchar, es importante que la variable pasada sea un valor definido y no un valor que se calcule en ejecucion, luego se debe crear un CommandHandler respetando esta interface ICommandHandler<MyKafkaSubscribeEvent, bool>
+# 📥 Consumo de Eventos
+
+Para consumir eventos:
+1. Heredar de `KafkaSubscribeEvent`
+2. Definir un topic constante
+3. Implementar `ICommandHandler<TEvent, bool>`
 
 > [!IMPORTANT]
-> Recordar que en este momento el mensaje ya fue descargado desde Kafka y almacenado internamnete por lo cual el procesamiento del evento no impacta en el proceso de escucha de eventos
+> El nombre del topic debe ser:
+> - un string literal
+> - o una constante
+>
+> Esto es obligatorio para que el Source Generator pueda descubrir automáticamente los topics.
 
-> [!IMPORTANT]
-> KafkaSubscribeEvent recibe un string que es el nombre del topic que representa el mensaje, este valor debe ser un string literal o una referencia a una variable constante ya que esto es necesario para que el SourceGeneration pueda armar con exito la lista de topicos
+---
 
-## 💡 Ejemplo como recibir un evento
-
-### Definicion del evento a enviar
+## 💡 Ejemplo de Evento de Consumo
 
 ```csharp
-internal sealed class MyKafkaSubscribeEvent() : KafkaSubscribeEvent(MyKafkaPublishEvent.TopicName)
+internal sealed class MyKafkaSubscribeEvent()
+    : KafkaSubscribeEvent(MyKafkaPublishEvent.TopicName)
 {
     public int Numerito { get; init; }
 }
 ```
 
-### Procesamiento del evento
+---
+
+## 💡 Procesamiento del Evento
 
 ```csharp
-internal sealed partial class MyKafkaSubscribeEventHanlder(ILogger<MyKafkaSubscribeEventHanlder> logger) : ICommandHandler<MyKafkaSubscribeEvent, bool>
+internal sealed partial class MyKafkaSubscribeEventHanlder
+    : ICommandHandler<MyKafkaSubscribeEvent, bool>
 {
-    public Task<Result<bool>> HandleAsync(MyKafkaSubscribeEvent command, CancellationToken cancellationToken = default)
+    public Task<Result<bool>> HandleAsync(
+        MyKafkaSubscribeEvent command,
+        CancellationToken cancellationToken = default)
     {
-        this.LogReception(command.Numerito);
         return Task.FromResult(Result<bool>.Success(true));
     }
-
-    [LoggerMessage(Level = Microsoft.Extensions.Logging.LogLevel.Information, Message = "Se recibio el numero: {numerito} de KAFKA!")]
-    private partial void LogReception(int numerito);
 }
 ```
+
+---
+
+## ⚡ Características Arquitectónicas
+
+- Kafka integration
+- Event-driven architecture
+- Domain Events
+- Integration Events
+- Outbox-like processing
+- Asynchronous consumers
+- Retry support
+- Low coupling
+- Source-generated discovery
+- Reflection-free startup
+- Distributed messaging
+- Background processing
 

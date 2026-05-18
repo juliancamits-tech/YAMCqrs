@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using YAMCqrs.BackgroundWorker.Abstractions;
-using YAMCqrs.BackgroundWorker.Domain;
+using YAMCqrs.BackgroundWorker.Core.Abstractions;
+using YAMCqrs.BackgroundWorker.Core.Domain;
 using YAMCqrs.Core.Abstractions;
 using YAMCqrs.Core.Extensions;
 using YAMCqrs.EventBus.Core.Configuration;

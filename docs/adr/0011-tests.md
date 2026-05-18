@@ -41,23 +41,23 @@ tests/
 
 ### Rationale for the Exception
 
-- **Shared infrastructure**: Both analyzers and source generators require similar test utilities (Roslyn test fixtures, compilation verification)
-- **Small scope**: These project types typically have fewer tests than core libraries
-- **Maintenance burden**: Maintaining separate test projects for small components adds overhead without significant benefit
+- **Shared infrastructure:** Both analyzers and source generators require similar test utilities (Roslyn test fixtures, compilation verification)
+- **Small scope:** These project types typically have fewer tests than core libraries
+- **Maintenance burden:** Maintaining separate test projects for small components adds overhead without significant benefit
 
 ## Consequences
 
 ### Positives
 
-- **Consistency**: Clear rule for most projects reduces decision fatigue
-- **Flexibility**: Exception clause handles special cases elegantly
-- **Discoverability**: Folder-based organization makes it clear which tests belong to which component
-- **CI/CD friendly**: Standard projects can have independent test pipelines
+- **Consistency:** Clear rule for most projects reduces decision fatigue
+- **Flexibility:** Exception clause handles special cases elegantly
+- **Discoverability:** Folder-based organization makes it clear which tests belong to which component
+- **CI/CD friendly:** Standard projects can have independent test pipelines
 
 ### Negatives
 
-- **Inconsistent structure**: Some solutions will have separate test projects, others will have grouped tests
-- **Potential test pollution**: Shared test projects could have unintended dependencies between component tests
+- **Inconsistent structure:** Some solutions will have separate test projects, others will have grouped tests
+- **Potential test pollution:** Shared test projects could have unintended dependencies between component tests
 
 ### Migration Path
 

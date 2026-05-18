@@ -7,14 +7,21 @@
 
     <ProjectType>Package</ProjectType>
     <PackageId>YAMCqrs.EventBus.Core</PackageId>
+    <PackageTags>eventbus;event-driven-architecture;domain-events;integration-events;dotnet;net;aspnetcore;messaging;pubsub;event-processing;asynchronous-processing;outbox-pattern;event-store;distributed-systems;cqrs;microservices;modular-monolith</PackageTags>
+    <PackageReadmeFile>YAMCqrs.EventBus.Core_en.md</PackageReadmeFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\..\docs\packages\YAMCqrs.EventBus.Core_en.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
 
   <ItemGroup Label="Nuggets">
     <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\backgroundworker\core\YAMCqrs.BackgroundWorker\YAMCqrs.BackgroundWorker.csproj" />
+    <ProjectReference Include="..\..\..\backgroundworker\core\YAMCqrs.BackgroundWorker.Core\YAMCqrs.BackgroundWorker.Core.csproj" />
     <ProjectReference Include="..\..\..\core\YAMCqrs.Core\YAMCqrs.Core.csproj" />
   </ItemGroup>
 

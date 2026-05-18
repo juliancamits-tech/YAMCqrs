@@ -7,7 +7,13 @@
 
     <ProjectType>Package</ProjectType>
     <PackageId>YAMCqrs.Core</PackageId>
+    <PackageTags>cqrs;mediator;dotnet;net;aspnetcore;command-query-segregation;command-handler;query-handler;dispatcher;pipeline;interceptors;result-pattern;source-generator;aot;reflection-free;dependency-injection;high-performance;clean-architecture</PackageTags>
+    <PackageReadmeFile>YAMCqrs.Core_en.md</PackageReadmeFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\..\docs\packages\YAMCqrs.Core_en.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
 
   <!-- Referencia al proyecto Source Generators (solo para build-time, el pack lo maneja el None item) -->
   <ItemGroup Label="Source Generators">

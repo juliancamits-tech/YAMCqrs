@@ -38,7 +38,7 @@ internal static class DependencyInjectionHelper
         _sb.AppendLine("    /// <summary>");
         _sb.AppendLine("    /// Generated service registration extensions");
         _sb.AppendLine("    /// </summary>");
-        _sb.AppendLine("    public static void AddCqrs(this IServiceCollection services)");
+        _sb.AppendLine("    public static void AddYAMCqrs(this IServiceCollection services)");
         _sb.AppendLine("    {");
 
         //Registrar Dispatcher
