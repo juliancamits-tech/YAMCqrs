@@ -8,7 +8,7 @@ namespace YAMCqrs.EventBus.Core.PublishEvents.Implementation;
 
 internal sealed partial class PublishEventHandler<TEvent>(
     IEventBusPublisherFactory publisherFactory,
-    ILogger<PublishEventHandler<TEvent>> logger) : IEventHandler<TEvent>
+    ILogger<PublishEventHandler<TEvent>> logger) : IYamHandler<TEvent>
     where TEvent : PublishEvent
 {
     private readonly ILogger<PublishEventHandler<TEvent>> _logger = logger;

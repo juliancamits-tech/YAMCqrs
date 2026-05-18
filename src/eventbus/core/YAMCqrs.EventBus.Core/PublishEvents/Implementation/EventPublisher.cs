@@ -8,6 +8,7 @@ namespace YAMCqrs.EventBus.Core.PublishEvents.Implementation;
 /// Scoped event publisher that participates in ambient transactions.
 /// Events are staged in-memory and committed when the transaction completes.
 /// </summary>
+[System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "<Pending>")]
 internal sealed partial class EventPublisher(IPublishEventStore eventStore, ILogger<EventPublisher> logger) : IEventPublisher, IDisposable
 {
 
@@ -40,8 +41,8 @@ internal sealed partial class EventPublisher(IPublishEventStore eventStore, ILog
     #endregion
 
     private readonly List<PublishEvent> _stagedEvents = [];
-    private bool _isEnlisted = false;
-    private bool _isDisposed = false;
+    private bool _isEnlisted;
+    private bool _isDisposed;
 
     public Task PublishAsync<TEvent>(TEvent @event, CancellationToken cancellationToken = default)
         where TEvent : PublishEvent

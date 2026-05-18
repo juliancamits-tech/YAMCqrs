@@ -13,6 +13,9 @@ public static class ServiceCollectionExtensions
 {
     public static IEventBusBuilder ExtendUseKafka(this IEventBusBuilder builder, KafkaConfigurationOptions options, string[] topics)
     {
+        ArgumentNullException.ThrowIfNull(builder);
+        ArgumentNullException.ThrowIfNull(options);
+
         options.Topics = topics;
         builder.Services.AddSingleton<IOptions<KafkaConfigurationOptions>>(new OptionsWrapper<KafkaConfigurationOptions>(options));
 

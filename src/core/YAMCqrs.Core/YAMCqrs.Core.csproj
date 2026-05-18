@@ -12,7 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\..\..\..\docs\packages\YAMCqrs.Core_en.md" Pack="true" PackagePath="\" />
+    <None Include="..\..\..\docs\packages\YAMCqrs.Core_en.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
   <!-- Referencia al proyecto Source Generators (solo para build-time, el pack lo maneja el None item) -->

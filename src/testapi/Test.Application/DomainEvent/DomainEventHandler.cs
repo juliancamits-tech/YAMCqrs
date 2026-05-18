@@ -10,6 +10,6 @@ internal sealed class DomainEventHandler(IEventPublisher eventPublisher) : IComm
     {
         await eventPublisher.PublishAsync(new DomainEventPublishEvent(), cancellationToken);
 
-        return Result<string>.Ok(command.Name);
+        return Result.Ok(command.Name);
     }
 }

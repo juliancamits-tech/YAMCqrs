@@ -10,6 +10,6 @@ internal sealed class MyQueryHandler : IQueryHandler<MyQuery, string>
 {
     public Task<Result<string>> HandleAsync(MyQuery command, CancellationToken cancellationToken = default)
     {
-        return Task.FromResult(Result<string>.Ok(command.Name));
+        return Task.FromResult(Result.Ok(command.Name));
     }
 }

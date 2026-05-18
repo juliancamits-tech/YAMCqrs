@@ -15,7 +15,7 @@ internal static class KafkaConfigHelper
     {
         var producerConfig = new ProducerConfig
         {
-            BootstrapServers = cfg.GetConnectionString(configuration),
+            BootstrapServers = cfg.FindConnectionString(configuration),
             // This name is for logs and metrics
             ClientId = cfg.KafkaClientName
         };
@@ -31,7 +31,7 @@ internal static class KafkaConfigHelper
     {
         var consumerConfig = new ConsumerConfig
         {
-            BootstrapServers = cfg.GetConnectionString(configuration),
+            BootstrapServers = cfg.FindConnectionString(configuration),
             // This name is for logs and metrics
             ClientId = cfg.KafkaClientName,
             // Consumer group id: all instances with the same groupId share work

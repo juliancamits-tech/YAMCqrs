@@ -10,26 +10,13 @@ namespace YAMCqrs.BackgroundWorker.Core.Abstractions;
 /// Base class for creating background workers that process items in batches with parallelism support.
 /// </summary>
 /// <typeparam name="TWorkItem">Class that is going to be processed by the worker.</typeparam>
-/// <param name="serviceProvider">IServiceProvider</param>
-public abstract partial class YABackgroundWorker<TWorkItem>(IServiceProvider serviceProvider) : BackgroundService
+[System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1000:Do not declare static members on generic types", Justification = "<Pending>")]
+[System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "<Pending>")]
+public abstract partial class YABackgroundWorker<TWorkItem>(IServiceProvider serviceProvider, ILogger<object> logger) : BackgroundService
 {
     private readonly IWorkerStorage _workerStorage = serviceProvider.GetRequiredService<IWorkerStorage>();
     private readonly IServiceScopeFactory _serviceScopeFactory = serviceProvider.GetRequiredService<IServiceScopeFactory>();
-    //This is used by the partial LoggerMessage methods, for that some IDE's might show it as unused.
-    private readonly ILogger<TWorkItem> _logger = serviceProvider.GetRequiredService<ILogger<TWorkItem>>();
-    #region Logger Messages
-    [LoggerMessage(LogLevel.Warning, "Background worker for {WorkerName} is closed because InitialSetupAsync return false")]
-    private partial void LogWorkerFailStartUp(string workerName);
-
-    [LoggerMessage(LogLevel.Information, "Starting background worker for {WorkerName}")]
-    private partial void LogStartingWorker(string workerName);
-
-    [LoggerMessage(LogLevel.Debug, "Sleeping")]
-    private partial void LogSleeping();
-
-    [LoggerMessage(LogLevel.Debug, "Batch Size: {batchSize}")]
-    private partial void LogBatchSize(int batchSize);
-    #endregion
+    private readonly ILogger _logger = logger;
 
     protected sealed override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
@@ -38,12 +25,12 @@ public abstract partial class YABackgroundWorker<TWorkItem>(IServiceProvider ser
         {
             if (!await InitialSetupAsync(initialScope, stoppingToken))
             {
-                LogWorkerFailStartUp(GetWorkerName());
+                YABackgroundWorkerLogger.LogWorkerFailStartUp(_logger, GetWorkerName());
                 return;
             }
         }
 
-        LogStartingWorker(GetWorkerName());
+        YABackgroundWorkerLogger.LogStartingWorker(_logger, GetWorkerName());
         // Wait until it's time for the first execution based on the last execution time
         await FirstTimeSleep(stoppingToken);
 
@@ -100,7 +87,7 @@ public abstract partial class YABackgroundWorker<TWorkItem>(IServiceProvider ser
                     batch = await GetBatchForProcessing(fetchScope, stoppingToken);
                 }
 
-                LogBatchSize(batch?.Count() ?? 0);
+                YABackgroundWorkerLogger.LogBatchSize(_logger, batch?.Count() ?? 0);
                 if (batch == null || !batch.Any())
                 {
                     continue;
@@ -127,9 +114,9 @@ public abstract partial class YABackgroundWorker<TWorkItem>(IServiceProvider ser
                         else
                             workerExecution.IncrementFailedCount();
                     }
-                    catch
+                    catch (Exception ex)
                     {
-                        // Any exception is counted as a failure
+                        YABackgroundWorkerLogger.LogItemError(_logger, item, ex);
                         workerExecution.IncrementFailedCount();
                     }
                 });
@@ -148,9 +135,9 @@ public abstract partial class YABackgroundWorker<TWorkItem>(IServiceProvider ser
                         {
                             await BatchPostProcesing(postScope, workerExecution, stoppingToken);
                         }
-                        catch
+                        catch (Exception ex)
                         {
-                            // Logging is responsibility of the derived class
+                            YABackgroundWorkerLogger.BatchPostProcesingError(_logger, ex);
                         }
                     }
 
@@ -158,7 +145,7 @@ public abstract partial class YABackgroundWorker<TWorkItem>(IServiceProvider ser
                         await _workerStorage.AddAsync(workerExecution);
                 }
 
-                LogSleeping();
+                YABackgroundWorkerLogger.LogSleeping(_logger);
                 await workerExecution.DelayUntilNextExecution(InternalSleepIntervalInSeconds(), stoppingToken);
             }
         }
@@ -175,7 +162,7 @@ public abstract partial class YABackgroundWorker<TWorkItem>(IServiceProvider ser
         var lastExecution = await _workerStorage.GetLastExecutionAsync(this.GetType().FullName ?? this.GetType().Name);
         if (lastExecution != null)
         {
-            LogSleeping();
+            YABackgroundWorkerLogger.LogSleeping(_logger);
             await lastExecution.DelayUntilNextExecution(InternalSleepIntervalInSeconds(), cancellationToken);
         }
     }
@@ -346,3 +333,25 @@ public abstract partial class YABackgroundWorker<TWorkItem>(IServiceProvider ser
 
     #endregion
 }
+#region Logger moved out of generic type to avoid CA1000
+internal static partial class YABackgroundWorkerLogger
+{
+    [LoggerMessage(LogLevel.Warning, "Background worker for {WorkerName} is closed because InitialSetupAsync return false")]
+    internal static partial void LogWorkerFailStartUp(ILogger logger, string workerName);
+
+    [LoggerMessage(LogLevel.Error, "The item raise a error {workItem}")]
+    internal static partial void LogItemError(ILogger logger, object? workItem, Exception ex);
+
+    [LoggerMessage(LogLevel.Error, "BatchPostProcesing raise a error")]
+    internal static partial void BatchPostProcesingError(ILogger logger, Exception ex);
+
+    [LoggerMessage(LogLevel.Information, "Starting background worker for {WorkerName}")]
+    internal static partial void LogStartingWorker(ILogger logger, string workerName);
+
+    [LoggerMessage(LogLevel.Debug, "Sleeping")]
+    internal static partial void LogSleeping(ILogger logger);
+
+    [LoggerMessage(LogLevel.Debug, "Batch Size: {batchSize}")]
+    internal static partial void LogBatchSize(ILogger logger, int batchSize);
+}
+#endregion

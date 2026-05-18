@@ -32,10 +32,10 @@ public interface ISubscribeEventStore
     /// <summary>
     /// Marks an event as processed
     /// </summary>
-    Task MarkAsProcessedAsync(Guid eventId, CancellationToken cancellationToken = default);
+    Task MarkAsProcessedAsync(SubscribeStoredEvent storedEvent, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Marks an event as failed
     /// </summary>
-    Task MarkAsFailedAsync(Guid eventId, string error, CancellationToken cancellationToken = default);
+    Task MarkAsFailedAsync(SubscribeStoredEvent storedEvent, CancellationToken cancellationToken = default);
 }

@@ -7,7 +7,7 @@ public class BackgroundWorkerMongoConfiguration()
     public required string ConnectionString { get; init; }
     public required string DatabaseName { get; init; }
 
-    public string GetConnectionString(IConfiguration cfg)
+    public string FindConnectionString(IConfiguration cfg)
     {
         ArgumentNullException.ThrowIfNullOrEmpty(ConnectionString, nameof(ConnectionString));
 
@@ -18,12 +18,5 @@ public class BackgroundWorkerMongoConfiguration()
         }
 
         return ConnectionString;
-    }
-
-    public string GetDatabaseName()
-    {
-        ArgumentNullException.ThrowIfNullOrEmpty(DatabaseName, nameof(DatabaseName));
-
-        return DatabaseName;
     }
 }

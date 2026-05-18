@@ -11,7 +11,7 @@ namespace YAMCqrs.EventBus.Provider.Kafka.Implementation;
 /// <summary>
 /// Implements event publishing to Kafka message broker
 /// </summary>
-internal partial class KafkaPublisher : IKafkaEventBusPublisher, IDisposable
+internal sealed partial class KafkaPublisher : IKafkaEventBusPublisher, IDisposable
 {
     private readonly IProducer<string, string> _producer;
     private readonly bool _ownsProducer; // Track if we should dispose

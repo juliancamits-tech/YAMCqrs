@@ -33,7 +33,7 @@ public class KafkaConfigurationOptions
     /// </summary>
     public int MaxConcurrentConsumers { get; set; } = 1;
 
-    public string GetConnectionString(IConfiguration cfg)
+    public string FindConnectionString(IConfiguration cfg)
     {
         ArgumentNullException.ThrowIfNullOrEmpty(ConnectionString, nameof(ConnectionString));
 

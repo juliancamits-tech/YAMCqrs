@@ -5,7 +5,7 @@ using YAMCqrs.EventBus.Core.PublishEvents.Domain;
 
 namespace YAMCqrs.EventBus.Storage.MongoDb.PublishEvents;
 
-internal class PublishEventStore : IPublishEventStore
+internal sealed class PublishEventStore : IPublishEventStore
 {
     private readonly IMongoCollection<PublishStoredEventDocument> _collection;
 

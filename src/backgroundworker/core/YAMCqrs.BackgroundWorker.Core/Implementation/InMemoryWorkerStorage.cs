@@ -20,7 +20,7 @@ namespace YAMCqrs.BackgroundWorker.Core.Implementation;
 /// <para><strong>Recommended Use:</strong> Local development and testing only.</para>
 /// <para><strong>For Production:</strong> Implement a persistent version of <see cref="IWorkerStorage"/> using a database or other durable storage.</para>
 /// </remarks>
-internal class InMemoryWorkerStorage : IWorkerStorage
+internal sealed class InMemoryWorkerStorage : IWorkerStorage
 {
     /// <summary>
     /// Thread-safe collection storing all worker executions in memory.

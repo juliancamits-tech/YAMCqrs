@@ -179,10 +179,7 @@ public class WorkerExecution(string workerName)
     /// Calculates the total execution duration in seconds.
     /// </summary>
     /// <returns>Duration in seconds as an integer.</returns>
-    public int GetDurationInSeconds()
-    {
-        return (int)(ExecutionEndTime - ExecutionStartTime).TotalSeconds;
-    }
+    public int GetDurationInSeconds => (int)(ExecutionEndTime - ExecutionStartTime).TotalSeconds;
 
     #region Constructors
 

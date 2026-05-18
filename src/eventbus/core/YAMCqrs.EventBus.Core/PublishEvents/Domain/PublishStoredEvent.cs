@@ -9,11 +9,6 @@ namespace YAMCqrs.EventBus.Core.PublishEvents.Domain;
 public sealed class PublishStoredEvent
 {
     /// <summary>
-    /// Maximum number of retry attempts for failed events
-    /// </summary>
-    public static int MaxRetryCount = 3;
-
-    /// <summary>
     /// Gets the unique identifier of the stored event
     /// </summary>
     public Guid Id { get; private set; }
@@ -61,14 +56,14 @@ public sealed class PublishStoredEvent
     /// <summary>
     /// Creates a PublishStoredEvent from an event instance
     /// </summary>
-    public PublishStoredEvent(PublishEvent @event)
+    public PublishStoredEvent(PublishEvent publishEvent)
     {
         Id = Guid.CreateVersion7();
-        EventType = @event.GetType().FullName ?? throw new InvalidOperationException("Event type must have a full name");
-        Value = JsonSerializerExtensions.SerializeWithConcreteType(@event);
+        EventType = publishEvent?.GetType().FullName ?? throw new InvalidOperationException("Event type must have a full name");
+        Value = JsonSerializerExtensions.SerializeWithConcreteType(publishEvent);
         CreatedAt = DateTime.UtcNow;
         Status = EventStatus.Pending;
-        EventDestination = @event.Destination();
+        EventDestination = publishEvent.Destination();
     }
 
     /// <summary>
@@ -110,7 +105,7 @@ public sealed class PublishStoredEvent
     /// <param name="error">The error message describing the failure</param>
     public void SetFailed(string error)
     {
-        if (RetryCount > PublishStoredEvent.MaxRetryCount)
+        if (RetryCount > InternalSharedStatics.PublishEventMaxRetryCount)
         {
             Status = EventStatus.Failed;
             Error = error;

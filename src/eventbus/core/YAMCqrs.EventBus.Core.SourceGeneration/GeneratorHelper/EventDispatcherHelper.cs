@@ -128,7 +128,7 @@ internal static class EventDispatcherHelper
 
                 sb.AppendLine($"    private static async Task DispatchTypedAsync({eventType} @event, IServiceProvider serviceProvider, CancellationToken cancellationToken)");
                 sb.AppendLine("     {");
-                sb.AppendLine($"        var handlers = serviceProvider.GetServices<IEventHandler<{eventType}>>();");
+                sb.AppendLine($"        var handlers = serviceProvider.GetServices<IYamHandler<{eventType}>>();");
                 sb.AppendLine("         foreach (var handler in handlers)");
                 sb.AppendLine("         {");
                 sb.AppendLine("             await handler.HandleAsync(@event, cancellationToken);");

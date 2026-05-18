@@ -30,6 +30,8 @@ builder.Services.AddEventBus(opt =>
 
 ## ⚙️ Configuración
 
+`PublishConfiguration` y `SubscribeConfiguration` contienen las mismas propiedades, siendo `PublishConfiguration` la configuracion para los mensajes de salida mientras que `SubscribeConfiguration` la configuracion para los mensajes de entrada. Permitiendo manejar distinta parametria para cada uno.
+
 - `ConcurrentWorkers`
   Cantidad de workers concurrentes para procesamiento paralelo.
 

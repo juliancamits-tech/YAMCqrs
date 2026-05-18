@@ -10,7 +10,7 @@ public interface IPublishEventStore
     /// <summary>
     /// Stores an event for later processing
     /// </summary>
-    Task StoreAsync<TEvent>(TEvent @event, CancellationToken cancellationToken = default)
+    Task StoreAsync<TEvent>(TEvent publishEvent, CancellationToken cancellationToken = default)
         where TEvent : PublishEvent;
 
     /// <summary>
@@ -26,5 +26,5 @@ public interface IPublishEventStore
     /// <summary>
     /// Marks an event as failed
     /// </summary>
-    Task MarkAsFailedAsync(Guid eventId, string error, CancellationToken cancellationToken = default);
+    Task MarkAsFailedAsync(Guid eventId, string msgError, CancellationToken cancellationToken = default);
 }

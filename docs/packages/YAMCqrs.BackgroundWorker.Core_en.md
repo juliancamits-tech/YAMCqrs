@@ -55,7 +55,7 @@ Inherit from `YABackgroundWorker<TWorkItem>` and implement the abstract methods:
 ```csharp
 public class MyWorker : YABackgroundWorker<MyItem>
 {
-    public MyWorker(IServiceProvider serviceProvider) : base(serviceProvider)
+    public MyWorker(IServiceProvider serviceProvider, ILogger<MyWorker> logger) : base(serviceProvider, logger)
     {
     }
 

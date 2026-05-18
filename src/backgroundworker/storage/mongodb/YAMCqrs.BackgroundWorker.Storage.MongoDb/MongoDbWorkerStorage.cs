@@ -5,7 +5,7 @@ using YAMCqrs.BackgroundWorker.Core.Domain;
 
 namespace YAMCqrs.BackgroundWorker.Storage.MongoDb;
 
-internal class MongoDbWorkerStorage : IWorkerStorage
+internal sealed class MongoDbWorkerStorage : IWorkerStorage
 {
     private readonly IMongoCollection<WorkerExecutionDocument> _collection;
 

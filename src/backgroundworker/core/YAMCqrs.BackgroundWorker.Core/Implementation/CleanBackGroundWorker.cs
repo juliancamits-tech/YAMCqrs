@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using YAMCqrs.BackgroundWorker.Core.Abstractions;
 using YAMCqrs.BackgroundWorker.Core.Configuration;
@@ -10,7 +11,7 @@ namespace YAMCqrs.BackgroundWorker.Core.Implementation;
 /// Background worker that periodically cleans old execution records from storage.
 /// Runs every 5 minutes to remove outdated execution history.
 /// </summary>
-public class CleanBackGroundWorker(IServiceProvider serviceProvider) : YABackgroundWorker<int>(serviceProvider)
+public class CleanBackGroundWorker(IServiceProvider serviceProvider, ILogger<CleanBackGroundWorker> logger) : YABackgroundWorker<int>(serviceProvider, logger)
 {
     protected override Task BatchPostProcesing(IServiceScope serviceScope, WorkerExecution currentExecution, CancellationToken stoppingToken)
     {
@@ -76,6 +77,8 @@ public class CleanBackGroundWorker(IServiceProvider serviceProvider) : YABackgro
     /// </summary>
     protected override async Task<bool> ProcessItemAsync(int item, IServiceScope serviceScope, Guid executionId, CancellationToken stoppingToken)
     {
+        ArgumentNullException.ThrowIfNull(serviceScope);
+
         var options = serviceScope.ServiceProvider.GetService<IOptions<BackgroundWorkerConfiguration>>();
         var optValue = options?.Value;
 

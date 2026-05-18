@@ -1,4 +1,6 @@
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using YAMCqrs.EventBus.Core.Configuration;
 using YAMCqrs.EventBus.Core.EventBus.Abstractions;
 using YAMCqrs.EventBus.Core.EventBus.Implementation;
@@ -47,12 +49,16 @@ public static class ServiceCollectionExtensions
         //Resolver for the IEventBusPublisher based on the ServiceBusProvider enum, this will be used by the EventPublisher to get the correct implementation of the IEventBusPublisher.
         services.AddSingleton<IEventBusPublisherFactory, EventBusPublisherFactory>();
         //Registering the event handlers for the publish events, this will be used by the EventPublisher to get the correct event handler for the event to be published.
-        services.AddSingleton<IEventHandler<PublishEvent>, PublishEventHandler<PublishEvent>>();
-        services.AddTransient(typeof(IEventHandler<>), typeof(PublishEventHandler<>));
+        services.AddSingleton<IYamHandler<PublishEvent>, PublishEventHandler<PublishEvent>>();
+        services.AddTransient(typeof(IYamHandler<>), typeof(PublishEventHandler<>));
         //Background Service that process the event to be published to the service bus.
         services.AddHostedService<PublishEventProcessorService>();
         //Background Service that process the event received from the service bus.
         services.AddHostedService<SubscribeEventProcessorService>();
+
+
+        services.AddSingleton<IOptions<EventBusConfiguration>>(
+           new OptionsWrapper<EventBusConfiguration>(cfg));
 
         return new EventBusBuilder(services, cfg);
     }

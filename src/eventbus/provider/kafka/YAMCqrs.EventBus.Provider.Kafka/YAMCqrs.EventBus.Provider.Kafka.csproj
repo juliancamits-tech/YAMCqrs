@@ -13,7 +13,7 @@
 
 
 	<ItemGroup>
-		<None Include="..\..\..\..\docs\packages\YAMCqrs.EventBus.Provider.Kafka_en.md" Pack="true" PackagePath="\" />
+		<None Include="..\..\..\..\..\docs\packages\YAMCqrs.EventBus.Provider.Kafka_en.md" Pack="true" PackagePath="\" />
 	</ItemGroup>
 
 

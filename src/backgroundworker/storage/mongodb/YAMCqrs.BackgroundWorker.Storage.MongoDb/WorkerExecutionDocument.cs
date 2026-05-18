@@ -4,7 +4,7 @@ using YAMCqrs.BackgroundWorker.Core.Domain;
 
 namespace YAMCqrs.BackgroundWorker.Storage.MongoDb;
 
-internal class WorkerExecutionDocument
+internal sealed class WorkerExecutionDocument
 {
     [BsonId]
     [BsonRepresentation(BsonType.String)]

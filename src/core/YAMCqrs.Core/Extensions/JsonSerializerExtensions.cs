@@ -4,7 +4,7 @@ namespace YAMCqrs.Core.Extensions;
 
 public static class JsonSerializerExtensions
 {
-    public static JsonSerializerOptions JsonSerializerOptions = new()
+    public readonly static JsonSerializerOptions JsonSerializerOptions = new()
     {
         WriteIndented = false,
         PropertyNameCaseInsensitive = true

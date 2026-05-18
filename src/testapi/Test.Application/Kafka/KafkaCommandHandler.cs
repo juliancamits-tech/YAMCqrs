@@ -10,6 +10,6 @@ internal sealed class KafkaCommandHandler(IEventPublisher eventPublisher) : ICom
     {
         await eventPublisher.PublishAsync(new MyKafkaPublishEvent(), cancellationToken);
 
-        return Result<string>.Ok(command.Name);
+        return Result.Ok(command.Name);
     }
 }

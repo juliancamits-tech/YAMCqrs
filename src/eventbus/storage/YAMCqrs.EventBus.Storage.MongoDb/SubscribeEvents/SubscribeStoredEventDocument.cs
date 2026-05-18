@@ -9,7 +9,7 @@ namespace YAMCqrs.EventBus.Storage.MongoDb.SubscribeEvents;
 /// MongoDB representation of the SubscribeStoredEvent domain entity.
 /// </summary>
 [BsonIgnoreExtraElements]
-internal class SubscribeStoredEventDocument
+internal sealed class SubscribeStoredEventDocument
 {
     /// <summary>
     /// The unique identifier of the event, stored as a string in MongoDB for better compatibility.

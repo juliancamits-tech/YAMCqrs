@@ -5,7 +5,7 @@ using YAMCqrs.EventBus.Core.SubscribeEvents.Domain;
 
 namespace YAMCqrs.EventBus.Storage.MongoDb.SubscribeEvents;
 
-internal class SubscribeEventStore : ISubscribeEventStore
+internal sealed class SubscribeEventStore : ISubscribeEventStore
 {
     private readonly IMongoCollection<SubscribeStoredEventDocument> _collection;
 
@@ -35,40 +35,24 @@ internal class SubscribeEventStore : ISubscribeEventStore
         return documents.Select(doc => doc.ToDomain());
     }
 
-    public async Task MarkAsFailedAsync(Guid eventId, string error, CancellationToken cancellationToken = default)
+    public async Task MarkAsFailedAsync(SubscribeStoredEvent storedEvent, CancellationToken cancellationToken = default)
+    {
+        await _collection.ReplaceOneAsync(CreateUpdateFilter(storedEvent.Id), storedEvent.ToDocument(), cancellationToken: cancellationToken);
+    }
+
+    public async Task MarkAsProcessedAsync(SubscribeStoredEvent storedEvent, CancellationToken cancellationToken = default)
+    {
+        await _collection.ReplaceOneAsync(CreateUpdateFilter(storedEvent.Id), storedEvent.ToDocument(), cancellationToken: cancellationToken);
+    }
+
+    private static FilterDefinition<SubscribeStoredEventDocument> CreateUpdateFilter(Guid id)
     {
         // Filtramos por ID y aseguramos que el estado siga siendo el inicial (Pending).
         // Esto evita que si otro proceso ya lo tomó, nosotros lo sobreescribamos.
-        var filter = Builders<SubscribeStoredEventDocument>.Filter.And(
-            Builders<SubscribeStoredEventDocument>.Filter.Eq(x => x.Id, eventId),
-            Builders<SubscribeStoredEventDocument>.Filter.Eq(x => x.Status, EventStatus.Pending)
-        );
-
-        var document = await _collection.Find(filter).FirstOrDefaultAsync(cancellationToken);
-
-        if (document != null)
-        {
-            var domain = document.ToDomain();
-            domain.SetFailed(error);
-            await _collection.ReplaceOneAsync(filter, domain.ToDocument(), cancellationToken: cancellationToken);
-        }
-    }
-
-    public async Task MarkAsProcessedAsync(Guid eventId, CancellationToken cancellationToken = default)
-    {
-        var filter = Builders<SubscribeStoredEventDocument>.Filter.And(
-            Builders<SubscribeStoredEventDocument>.Filter.Eq(x => x.Id, eventId),
-            Builders<SubscribeStoredEventDocument>.Filter.Eq(x => x.Status, EventStatus.Pending)
-        );
-
-        var document = await _collection.Find(filter).FirstOrDefaultAsync(cancellationToken);
-
-        if (document != null)
-        {
-            var domain = document.ToDomain();
-            domain.SetProcessed();
-            await _collection.ReplaceOneAsync(filter, domain.ToDocument(), cancellationToken: cancellationToken);
-        }
+        return Builders<SubscribeStoredEventDocument>.Filter.And(
+         Builders<SubscribeStoredEventDocument>.Filter.Eq(x => x.Id, id),
+         Builders<SubscribeStoredEventDocument>.Filter.Eq(x => x.Status, EventStatus.Pending)
+     );
     }
 
     public async Task<bool> StoreAsync(string topic, string value, Dictionary<string, string>? headers, ServiceBusProvider serviceBusProvider, CancellationToken cancellationToken)

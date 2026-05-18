@@ -10,7 +10,7 @@ public interface IEventPublisher : IDisposable
     /// If an ambient transaction exists, the event is committed when the transaction completes.
     /// Otherwise, it's committed immediately.
     /// </summary>
-    Task PublishAsync<TEvent>(TEvent @event, CancellationToken cancellationToken = default)
+    Task PublishAsync<TEvent>(TEvent publishEvent, CancellationToken cancellationToken = default)
         where TEvent : PublishEvent;
 
     /// <summary>

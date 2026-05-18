@@ -8,8 +8,6 @@ public class SubscribeStoredEvent(
     string sourceStorage,
     ServiceBusProvider sourceEvent)
 {
-    public static int MaxRetryCount = 3;
-
     public SubscribeStoredEvent(Guid id,
         string topic,
         string value,
@@ -34,21 +32,21 @@ public class SubscribeStoredEvent(
     public Dictionary<string, string>? Headers { get; init; } = headers;
     public DateTime ReceivedAt { get; init; } = DateTime.UtcNow;
     public EventStatus Status { get; private set; } = EventStatus.Pending;
-    public int RetryCount { get; set; }
-    public string? Error { get; set; }
+    public int RetryCount { get; private set; }
+    public string? Error { get; private set; }
 
     public string SourceStorage { get; set; } = sourceStorage;
 
     public ServiceBusProvider SourceEvent { get; set; } = sourceEvent;
 
-    public void SetProcessed()
+    internal void SetProcessed()
     {
         Status = EventStatus.Processed;
     }
 
-    public void SetFailed(string error)
+    internal void SetFailed(string error)
     {
-        if (RetryCount > SubscribeStoredEvent.MaxRetryCount)
+        if (RetryCount > InternalSharedStatics.SubscribeEventMaxRetryCount)
         {
             Status = EventStatus.Failed;
             Error = error;

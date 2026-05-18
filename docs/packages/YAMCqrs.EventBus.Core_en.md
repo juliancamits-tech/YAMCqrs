@@ -23,14 +23,16 @@ dotnet add package YAMCqrs.EventBus.Core
 ```csharp
 builder.Services.AddEventBus(opt =>
 {
-    opt.ConcurrentWorkers = 1;
-    opt.BatchSize = 100;
+    opt.SubscribeConfiguration.ConcurrentWorkers = 1;
+    opt.PublishConfiguration.ConcurrentWorkers = 1;
 });
 ```
 
 ---
 
 ## ⚙️ Configuration
+
+`PublishConfiguration` and `SubscribeConfiguration` contain the same properties. `PublishConfiguration` defines the configuration for outgoing messages, while `SubscribeConfiguration` defines the configuration for incoming messages, allowing different settings to be applied independently for each flow.
 
 - `ConcurrentWorkers`
   Number of concurrent workers for parallel processing.

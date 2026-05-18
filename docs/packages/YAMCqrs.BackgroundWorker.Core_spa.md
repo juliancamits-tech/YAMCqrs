@@ -54,7 +54,7 @@ Hereda de `YABackgroundWorker<TWorkItem>` e implementa los métodos abstractos:
 ```csharp
 public class MiWorker : YABackgroundWorker<MiElemento>
 {
-    public MiWorker(IServiceProvider serviceProvider) : base(serviceProvider)
+    public MiWorker(IServiceProvider serviceProvider, ILogger<MiWorker> logger) : base(serviceProvider, logger)
     {
     }
 

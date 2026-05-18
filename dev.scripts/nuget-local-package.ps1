@@ -3,8 +3,7 @@ $ErrorActionPreference = "Stop"
 
 # Rutas hardcodeadas a los proyectos a empaquetar (relativas a la raíz)
 $projectsToPack = @(
-    ".\src\backgroundworker\core\YAMCqrs.BackgroundWorker\YAMCqrs.BackgroundWorker.csproj" #Core BackgroundWorker
-    ".\src\backgroundworker\storage\mongodb\YAMCqrs.BackgroundWorker.Storage.MongoDb\YAMCqrs.BackgroundWorker.Storage.MongoDb.csproj" #BackgroundWorker MongoDB Storage
+    ".\src\backgroundworker\core\YAMCqrs.BackgroundWorker.Core\YAMCqrs.BackgroundWorker.Core.csproj" #Core BackgroundWorker
     ".\src\backgroundworker\storage\mongodb\YAMCqrs.BackgroundWorker.Storage.MongoDb\YAMCqrs.BackgroundWorker.Storage.MongoDb.csproj" #BackgroundWorker MongoDB Storage
     ".\src\core\YAMCqrs.Core\YAMCqrs.Core.csproj" #Core
     ".\src\eventbus\core\YAMCqrs.EventBus.Core\YAMCqrs.EventBus.Core.csproj" #Core EventBus

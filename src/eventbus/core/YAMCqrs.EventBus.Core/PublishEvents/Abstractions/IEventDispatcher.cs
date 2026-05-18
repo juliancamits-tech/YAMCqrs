@@ -11,13 +11,13 @@ public interface IEventDispatcher
     /// Dispatches an event to all registered handlers.
     /// </summary>
     /// <param name="eventTypeName">Full type name of the event</param>
-    /// <param name="event">The event instance to dispatch</param>
+    /// <param name="yamEvent">The event instance to dispatch</param>
     /// <param name="serviceProvider">Service provider to resolve handlers</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>True if the event was dispatched successfully, false if no handler was found</returns>
     Task<bool> DispatchAsync(
         string eventTypeName,
-        object @event,
+        object yamEvent,
         IServiceProvider serviceProvider,
         CancellationToken cancellationToken = default);
 

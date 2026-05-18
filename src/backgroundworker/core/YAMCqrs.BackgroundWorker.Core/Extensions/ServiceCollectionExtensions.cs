@@ -53,7 +53,7 @@ public interface IBackgroundWorkerBuilder
     BackgroundWorkerConfiguration Configuration { get; }
 }
 
-internal class BackgroundWorkerBuilder(IServiceCollection services, BackgroundWorkerConfiguration configuration) : IBackgroundWorkerBuilder
+internal sealed class BackgroundWorkerBuilder(IServiceCollection services, BackgroundWorkerConfiguration configuration) : IBackgroundWorkerBuilder
 {
     public IServiceCollection Services => services;
     public BackgroundWorkerConfiguration Configuration => configuration;

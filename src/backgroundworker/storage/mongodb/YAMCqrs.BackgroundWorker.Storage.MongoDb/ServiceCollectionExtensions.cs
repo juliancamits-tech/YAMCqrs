@@ -12,6 +12,8 @@ public static class ServiceCollectionExtensions
         this IBackgroundWorkerBuilder builder,
         BackgroundWorkerMongoConfiguration configuration)
     {
+        ArgumentNullException.ThrowIfNull(builder);
+
         builder.Services.AddSingleton<IWorkerStorageMongoDbContext, WorkerStorageMongoDbContext>();
         builder.Services.Replace(ServiceDescriptor.Singleton<IWorkerStorage, MongoDbWorkerStorage>());
         // Register BackgroundWorkerMongoConfiguration as IOptions<T>

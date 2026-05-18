@@ -21,7 +21,7 @@ namespace YAMCqrs.BackgroundWorker.Core.CustomHealthCheck;
 /// If InitialSetupAsync fails and the worker doesn't start, the health check will report the result of the previous execution 
 /// (if one exists in storage). Workers without any execution history will not appear in health check results.</para>
 /// </remarks>
-internal class HealthCheckReport(IWorkerStorage workerStorage) : IHealthCheck
+internal sealed class HealthCheckReport(IWorkerStorage workerStorage) : IHealthCheck
 {
     /// <summary>
     /// Performs the health check by examining the last execution of each worker.
@@ -92,7 +92,7 @@ internal class HealthCheckReport(IWorkerStorage workerStorage) : IHealthCheck
         /// <summary>
         /// Duration of the execution in seconds.
         /// </summary>
-        public int DurationInSeconds { get; set; } = execution.GetDurationInSeconds();
+        public int DurationInSeconds { get; set; } = execution.GetDurationInSeconds;
 
         /// <summary>
         /// UTC timestamp when the execution started.

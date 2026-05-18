@@ -11,16 +11,16 @@ using YAMCqrs.EventBus.Core.SubscribeEvents.Domain;
 
 namespace YAMCqrs.EventBus.Core.SubscribeEvents.Implementation;
 
-internal partial class SubscribeEventProcessorService(
+[System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "<Pending>")]
+internal sealed partial class SubscribeEventProcessorService(
     IServiceProvider serviceProvider,
     ILogger<SubscribeEventProcessorService> logger,
     IOptions<EventBusConfiguration> config,
-    ITopicToCommand topicToCommand) : YABackgroundWorker<SubscribeStoredEvent>(serviceProvider)
+    ITopicToCommand topicToCommand) : YABackgroundWorker<SubscribeStoredEvent>(serviceProvider, logger)
 {
-    private readonly ILogger<SubscribeEventProcessorService> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-    private readonly EventBusConfiguration _config = config.Value ?? new EventBusConfiguration(); //TODO: delete the new a have a DI inyection.
+    private readonly WorkerConfiguration _config = config.Value.SubscribeConfiguration ?? throw new ArgumentNullException(nameof(EventBusConfiguration));
     private readonly ITopicToCommand _topicToCommand = topicToCommand ?? throw new ArgumentNullException(nameof(topicToCommand));
-    private int _currentBatchSize = 0;
+    private int _currentBatchSize;
 
     protected override Task<bool> InitialSetupAsync(IServiceScope serviceScope, CancellationToken stoppingToken)
     {
@@ -46,7 +46,7 @@ internal partial class SubscribeEventProcessorService(
     protected override async Task<bool> ProcessItemAsync(SubscribeStoredEvent item, IServiceScope serviceScope, Guid workerId, CancellationToken stoppingToken)
     {
         stoppingToken.ThrowIfCancellationRequested();
-
+        var eventStore = serviceScope.ServiceProvider.GetRequiredService<ISubscribeEventStore>();
         try
         {
             LogProcessingMessage(item.Id, item.Topic);
@@ -61,9 +61,11 @@ internal partial class SubscribeEventProcessorService(
             var dispatcher = serviceScope.ServiceProvider.GetRequiredService<IDispatcher>();
             var r = await dispatcher.SendAsync(command!, stoppingToken);
 
+            
             if (r.IsSuccess)
             {
                 item.SetProcessed();
+                await eventStore.MarkAsProcessedAsync(item, stoppingToken);
                 LogMessageProcessed(item.Id);
             }
 
@@ -72,8 +74,8 @@ internal partial class SubscribeEventProcessorService(
         catch (Exception ex)
         {
             LogMessageFailed(ex, item.Id, item.RetryCount);
-
             item.SetFailed(ex.Message);
+            await eventStore.MarkAsFailedAsync(item, stoppingToken);
             return false;
         }
     }
@@ -91,7 +93,7 @@ internal partial class SubscribeEventProcessorService(
 
     protected override int ParallelismDegree()
     {
-        return _config.GetConcurrentWorkers();
+        return _config.ConcurrentWorkers;
     }
 
     protected override int ErrorThresholdPercentage()

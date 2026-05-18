@@ -12,7 +12,7 @@ internal sealed partial class MyKafkaSubscribeEventHanlder(ILogger<MyKafkaSubscr
     public Task<Result<bool>> HandleAsync(MyKafkaSubscribeEvent command, CancellationToken cancellationToken = default)
     {
         this.LogReception(command.Numerito);
-        return Task.FromResult(Result<bool>.Success(true));
+        return Task.FromResult(Result.Success(true));
     }
 
     [LoggerMessage(Level = Microsoft.Extensions.Logging.LogLevel.Information, Message = "Se recibio el numero: {numerito} de KAFKA!")]

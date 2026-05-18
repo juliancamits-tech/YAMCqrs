@@ -11,6 +11,6 @@ internal sealed class MyCommandHandler : ICommandHandler<MyCommand, string>
 {
     public Task<Result<string>> HandleAsync(MyCommand command, CancellationToken cancellationToken = default)
     {
-        return Task.FromResult(Result<string>.Ok(command.Name));
+        return Task.FromResult(Result.Ok(command.Name));
     }
 }

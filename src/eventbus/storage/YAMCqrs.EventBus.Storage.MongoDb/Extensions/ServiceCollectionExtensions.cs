@@ -13,6 +13,8 @@ public static class ServiceCollectionExtensions
 {
     public static IEventBusBuilder UseMongoDb(this IEventBusBuilder builder, EventBusStorageMongoConfiguration configuration)
     {
+        ArgumentNullException.ThrowIfNull(builder);
+
         builder.Services.Replace(ServiceDescriptor.Singleton<IPublishEventStore, PublishEventStore>());
         builder.Services.Replace(ServiceDescriptor.Singleton<ISubscribeEventStore, SubscribeEventStore>());
 

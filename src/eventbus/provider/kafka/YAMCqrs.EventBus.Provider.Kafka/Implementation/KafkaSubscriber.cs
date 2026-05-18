@@ -16,6 +16,7 @@ namespace YAMCqrs.EventBus.Provider.Kafka.Implementation;
 /// <summary>
 /// Background service that consumes messages from Kafka topics
 /// </summary>
+[System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "<Pending>")]
 internal sealed partial class KafkaSubscriber(
     ILogger<KafkaSubscriber> logger,
     IOptions<KafkaConfigurationOptions> configuration,
@@ -101,7 +102,7 @@ internal sealed partial class KafkaSubscriber(
         LogStopping();
 
         // Signal cancellation to consumer tasks
-        _cancellationTokenSource?.Cancel();
+        _cancellationTokenSource?.CancelAsync();
 
         // Wait for all consumer tasks to complete
         if (_consumerTasks.Count > 0)

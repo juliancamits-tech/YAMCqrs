@@ -5,7 +5,7 @@ using YAMCqrs.EventBus.Core.SubscribeEvents.Domain;
 
 namespace YAMCqrs.EventBus.Core.InMemoryBus;
 
-internal class InMemorySubscribeEventStore : ISubscribeEventStore
+internal sealed class InMemorySubscribeEventStore : ISubscribeEventStore
 {
     private readonly ConcurrentDictionary<Guid, SubscribeStoredEvent> _messages = ConcurrentDictionaryExtension.CreateNewDictionary<Guid, SubscribeStoredEvent>();
 
@@ -41,16 +41,17 @@ internal class InMemorySubscribeEventStore : ISubscribeEventStore
     }
 
 
-    public Task MarkAsProcessedAsync(Guid eventId, CancellationToken cancellationToken = default)
+    public Task MarkAsProcessedAsync(SubscribeStoredEvent storedEvent, CancellationToken cancellationToken = default)
     {
-        _messages.TryRemove(eventId, out var _);
+        _messages.TryRemove(storedEvent.Id, out var _);
 
         return Task.CompletedTask;
     }
 
-    public Task MarkAsFailedAsync(Guid eventId, string error, CancellationToken cancellationToken = default)
+    public Task MarkAsFailedAsync(SubscribeStoredEvent storedEvent, CancellationToken cancellationToken = default)
     {
-        _messages.TryRemove(eventId, out var _);
+        if (storedEvent.Status == EventStatus.Failed)
+            _messages.TryRemove(storedEvent.Id, out var _);
 
         return Task.CompletedTask;
     }

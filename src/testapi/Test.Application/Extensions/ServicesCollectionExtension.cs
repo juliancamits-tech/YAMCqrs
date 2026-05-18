@@ -30,12 +30,12 @@ public static class ServicesCollectionExtension
             DatabaseName = "TestAppDb",
         });
 
-        services.AddCqrs();
+        services.AddYAMCqrs();
 
         services.AddEventBus(opt =>
         {
-            opt.ConcurrentWorkers = 1;
-            opt.BatchSize = 100;
+            opt.SubscribeConfiguration.ConcurrentWorkers = 1;
+            opt.PublishConfiguration.ConcurrentWorkers = 1;
         })
         .UseMongoDb(new YAMCqrs.EventBus.Storage.MongoDb.EventBusStorageMongoConfiguration()
         {

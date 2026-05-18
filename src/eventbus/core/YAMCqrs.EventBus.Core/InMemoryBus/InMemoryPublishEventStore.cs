@@ -13,7 +13,7 @@ namespace YAMCqrs.EventBus.Core.PublishEvents.Implementation;
 internal sealed partial class InMemoryPublishEventStore(ILogger<InMemoryPublishEventStore> logger) : IPublishEventStore
 {
     private readonly ConcurrentDictionary<Guid, PublishStoredEvent> _events = ConcurrentDictionaryExtension.CreateNewDictionary<Guid, PublishStoredEvent>();
-    private readonly ILogger<InMemoryPublishEventStore> _logger = logger;
+
     #region Logger
     [LoggerMessage(Level = LogLevel.Information, Message = "Event stored: {EventType} [{EventId}] → {Destination}{RoutingKey}")]
     private partial void EventStored(string eventType, Guid eventId, ServiceBusProvider destination, string routingKey);
@@ -69,7 +69,7 @@ internal sealed partial class InMemoryPublishEventStore(ILogger<InMemoryPublishE
             }
             else
             {
-                EventErrorB(storedEvent.RetryCount, PublishStoredEvent.MaxRetryCount, eventId, error);
+                EventErrorB(storedEvent.RetryCount, InternalSharedStatics.PublishEventMaxRetryCount, eventId, error);
             }
         }
 

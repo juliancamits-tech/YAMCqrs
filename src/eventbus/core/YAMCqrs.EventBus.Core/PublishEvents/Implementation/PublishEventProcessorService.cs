@@ -12,20 +12,21 @@ namespace YAMCqrs.EventBus.Core.PublishEvents.Implementation;
 /// <summary>
 /// Background service that processes pending events with configurable parallelism
 /// </summary>
-internal partial class PublishEventProcessorService(
+[System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "<Pending>")]
+internal sealed partial class PublishEventProcessorService(
     ILogger<PublishEventProcessorService> logger,
     IEventDispatcher eventDispatcher,
     IPublishEventStore eventStore,
     IOptions<EventBusConfiguration> configuration,
     IServiceProvider serviceProvider)
-    : YABackgroundWorker<PublishStoredEvent>(serviceProvider)
+    : YABackgroundWorker<PublishStoredEvent>(serviceProvider, logger)
 {
     private const int ErrorThresholdPercen = 50;
 
     private readonly ILogger<PublishEventProcessorService> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     private readonly IEventDispatcher _eventDispatcher = eventDispatcher ?? throw new ArgumentNullException(nameof(eventDispatcher));
     private readonly IPublishEventStore _eventStore = eventStore ?? throw new ArgumentNullException(nameof(eventStore));
-    private readonly EventBusConfiguration _configuration = configuration?.Value ?? throw new ArgumentNullException(nameof(configuration));
+    private readonly WorkerConfiguration _configuration = configuration?.Value?.PublishConfiguration ?? throw new ArgumentNullException(nameof(configuration));
 
     #region Logger Messages
     // ========== High-Performance LoggerMessage Delegates ==========
@@ -134,6 +135,7 @@ internal partial class PublishEventProcessorService(
         return pendingEvents;
     }
 
+    
     protected override async Task<bool> ProcessItemAsync(PublishStoredEvent item, IServiceScope serviceScope, Guid workerId, CancellationToken stoppingToken)
     {
         try
@@ -182,7 +184,7 @@ internal partial class PublishEventProcessorService(
 
     protected override int ParallelismDegree()
     {
-        return _configuration.GetConcurrentWorkers();
+        return _configuration.ConcurrentWorkers;
     }
 
     protected override void FinalCleanUp()

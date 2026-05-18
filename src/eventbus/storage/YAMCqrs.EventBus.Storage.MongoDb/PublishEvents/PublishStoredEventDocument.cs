@@ -8,7 +8,7 @@ namespace YAMCqrs.EventBus.Storage.MongoDb.PublishEvents;
 /// MongoDB representation of the PublishStoredEvent domain entity.
 /// </summary>
 [BsonIgnoreExtraElements]
-internal class PublishStoredEventDocument
+internal sealed class PublishStoredEventDocument
 {
     /// <summary>
     /// The unique identifier of the event, stored as a string in MongoDB for better compatibility.
