@@ -15,12 +15,13 @@ $projectsToPack = @(
 $configuration = "Release"
 $packageOutput = ".\nugets"
 
-Remove-Item -Path $packageOutput -Recurse -Force   
-
 # Asegurar que el directorio de salida exista
 if (-not (Test-Path $packageOutput)) {
-    New-Item -ItemType Directory -Path $packageOutput | Out-Null
+    New-Item -ItemType Directory -Force -Path $packageOutput | Out-Null
 }
+
+# Limpia el directorio destino
+Remove-Item -Path $packageOutput -Recurse -Force
 
 foreach ($project in $projectsToPack) {
 
