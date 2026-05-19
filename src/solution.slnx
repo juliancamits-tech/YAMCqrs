@@ -19,7 +19,7 @@
     <Folder Name="/EventBus/" />
     <Folder Name="/EventBus/Core/">
         <Project Path="eventbus/core/YAMCqrs.EventBus.Core.SourceGeneration/YAMCqrs.EventBus.Core.SourceGeneration.csproj" />
-        <Project Path="eventBus/core/YAMCqrs.EventBus.Core/YAMCqrs.EventBus.Core.csproj" />
+        <Project Path="eventbus/core/YAMCqrs.EventBus.Core/YAMCqrs.EventBus.Core.csproj" />
     </Folder>
 
     <Folder Name="/EventBus/Providers/" />
