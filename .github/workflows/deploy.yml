@@ -93,7 +93,7 @@ jobs:
       - name: Restore Dependencies
         if: steps.check_nuget.outputs.skip_deploy == 'false'
         run: dotnet restore ./src/solution.slnx
-
+        
       # 5. Ejecutar tests
       - name: Run Tests
         if: steps.check_nuget.outputs.skip_deploy == 'false'
