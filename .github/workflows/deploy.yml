@@ -92,12 +92,12 @@ jobs:
       # 4. Restaurar dependencias
       - name: Restore Dependencies
         if: steps.check_nuget.outputs.skip_deploy == 'false'
-        run: dotnet restore
+        run: dotnet restore ./src/solution.slnx
 
       # 5. Ejecutar tests
       - name: Run Tests
         if: steps.check_nuget.outputs.skip_deploy == 'false'
-        run: dotnet test --configuration Release --no-restore
+        run: dotnet test ./src/solution.slnx --configuration Release --no-restore
 
       - name: Test Summary
         if: steps.check_nuget.outputs.skip_deploy == 'false'
