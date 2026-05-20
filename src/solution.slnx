@@ -2,6 +2,7 @@
     <Folder Name="/BackGroundWorker/" />
     <Folder Name="/BackGroundWorker/Core/">
         <Project Path="backgroundworker/core/YAMCqrs.BackgroundWorker.Core.Analyzers/YAMCqrs.BackgroundWorker.Core.Analyzers.csproj" />
+        <Project Path="backgroundworker/core/YAMCqrs.BackgroundWorker.Core.Tests/YAMCqrs.BackgroundWorker.Core.Tests.csproj" />
         <Project Path="backgroundworker/core/YAMCqrs.BackgroundWorker.Core/YAMCqrs.BackgroundWorker.Core.csproj" />
     </Folder>
 
@@ -14,23 +15,27 @@
     <Folder Name="/Core/">
         <Project Path="core/YAMCqrs.Core.SourceGeneration/YAMCqrs.Core.SourceGeneration.csproj" />
         <Project Path="core/YAMCqrs.Core/YAMCqrs.Core.csproj" />
+        <Project Path="YAMCqrs.Core.Tests/YAMCqrs.Core.Tests.csproj" Id="2b122e59-de56-440a-9bef-6e763fcdea10" />
     </Folder>
 
     <Folder Name="/EventBus/" />
     <Folder Name="/EventBus/Core/">
         <Project Path="eventbus/core/YAMCqrs.EventBus.Core.Analyzers/YAMCqrs.EventBus.Core.Analyzers.csproj" Id="1f0b3a86-e88f-4bfd-aed7-4c8daadbe9b2" />
         <Project Path="eventbus/core/YAMCqrs.EventBus.Core.SourceGeneration/YAMCqrs.EventBus.Core.SourceGeneration.csproj" />
+        <Project Path="eventbus/core/YAMCqrs.EventBus.Core.Tests/YAMCqrs.EventBus.Core.Tests.csproj" Id="901858b7-706a-439f-ad02-72838a880094" />
         <Project Path="eventbus/core/YAMCqrs.EventBus.Core/YAMCqrs.EventBus.Core.csproj" />
     </Folder>
 
     <Folder Name="/EventBus/Providers/" />
     <Folder Name="/EventBus/Providers/Kafka/">
         <Project Path="eventbus/provider/kafka/YAMCqrs.EventBus.Provider.Kafka.SourceGeneration/YAMCqrs.EventBus.Provider.Kafka.SourceGeneration.csproj" Id="04baf818-43a8-4027-bd3b-982e8c9a5aa2" />
+        <Project Path="eventbus/provider/kafka/YAMCqrs.EventBus.Provider.Kafka.Tests/YAMCqrs.EventBus.Provider.Kafka.Tests.csproj" Id="a1c5dcdf-8de8-4eec-9788-93a87576e343" />
         <Project Path="eventbus/provider/kafka/YAMCqrs.EventBus.Provider.Kafka/YAMCqrs.EventBus.Provider.Kafka.csproj" Id="b0a90776-4dd2-412e-95ef-c8e41aefec64" />
     </Folder>
 
     <Folder Name="/EventBus/Storage/" />
     <Folder Name="/EventBus/Storage/MongoDb/">
+        <Project Path="eventbus/storage/YAMCqrs.EventBus.Storage.MongoDb.Tests/YAMCqrs.EventBus.Storage.MongoDb.Tests.csproj" Id="779f696d-e850-476f-8298-73f469a1393e" />
         <Project Path="eventbus/storage/YAMCqrs.EventBus.Storage.MongoDb/YAMCqrs.EventBus.Storage.MongoDb.csproj" Id="c0e792cc-2f1a-456f-b272-ddba2c159f1e" />
     </Folder>
 
