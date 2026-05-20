@@ -5,4 +5,4 @@
 
 Rule ID | Category | Severity | Notes
 --------|----------|----------|-------
-YAMCBgWo001 | Usage | Error | BackgroundServiceUsageAnalyzer
+YAMCBGWO001 | Usage | Warning | BackgroundServiceUsageAnalyzer

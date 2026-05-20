@@ -18,6 +18,7 @@
 
     <Folder Name="/EventBus/" />
     <Folder Name="/EventBus/Core/">
+        <Project Path="eventbus/core/YAMCqrs.EventBus.Core.Analyzers/YAMCqrs.EventBus.Core.Analyzers.csproj" Id="1f0b3a86-e88f-4bfd-aed7-4c8daadbe9b2" />
         <Project Path="eventbus/core/YAMCqrs.EventBus.Core.SourceGeneration/YAMCqrs.EventBus.Core.SourceGeneration.csproj" />
         <Project Path="eventbus/core/YAMCqrs.EventBus.Core/YAMCqrs.EventBus.Core.csproj" />
     </Folder>

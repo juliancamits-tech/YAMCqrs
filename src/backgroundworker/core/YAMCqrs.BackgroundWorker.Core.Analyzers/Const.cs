@@ -1,6 +1,6 @@
-namespace YAMCqrs.BackgroundWorker.Analyzers;
+namespace YAMCqrs.BackgroundWorker.Core.Analyzers;
 
 public static class ConstDiagnostics
 {
-    public const string BackgroundServiceUsage = "YAMCBgWo001";
+    public const string BackgroundServiceUsage = "YAMCBGWO001";
 }

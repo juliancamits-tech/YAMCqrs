@@ -9,7 +9,7 @@
 	<!--Begin Package-->
 	<PropertyGroup Condition="'$(ProjectType)' == 'Package'">
 		<!--Datos globales Nuget-->
-		<Version>10.0.1</Version>
+		<Version>10.0.2</Version>
 		<Authors>Julian Camits</Authors>
 		<Company></Company>
 		<Copyright>Copyright © $([System.DateTime]::Now.Year)</Copyright>

@@ -42,10 +42,10 @@ Para profundizar en los detalles técnicos y el uso del framework, consulta los 
 
 [X] Primera version oficial en Nugget.org
 
-[-] Pipeline CI/CD
+[X] Pipeline CI/CD
 
 [-] Documentacion en ingles con diagramas
 
-[-] Configuracion de Analyzers
+[X] Configuracion de Analyzers
 
 [-] Unit Tests

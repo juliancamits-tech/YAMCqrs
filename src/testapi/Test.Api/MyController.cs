@@ -17,7 +17,7 @@ namespace Test.Api;
 public sealed class MyController(IDispatcher dispatcher) : ControllerBase
 {
     /// <summary>
-    /// Sends a MyCommand request through the dispatcher.
+    /// Basic ICommand implementation.
     /// </summary>
     /// <returns>Returns 200 OK if the command is successful, otherwise returns 400 Bad Request with the error message.</returns>
     [HttpPost("command")]
@@ -36,7 +36,7 @@ public sealed class MyController(IDispatcher dispatcher) : ControllerBase
     }
 
     /// <summary>
-    /// Sends a MyCommand request through the dispatcher.
+    /// Basic IQuery implementation.
     /// </summary>
     /// <returns>Returns 200 OK if the command is successful, otherwise returns 400 Bad Request with the error message.</returns>
     [HttpPost("query")]
@@ -55,7 +55,7 @@ public sealed class MyController(IDispatcher dispatcher) : ControllerBase
     }
 
     /// <summary>
-    /// Sends a MyCommand request through the dispatcher.
+    /// Basic implementation for send domain event / InMemory bus.
     /// </summary>
     /// <returns>Returns 200 OK if the command is successful, otherwise returns 400 Bad Request with the error message.</returns>
     [HttpPost("domainEvent")]
@@ -74,7 +74,7 @@ public sealed class MyController(IDispatcher dispatcher) : ControllerBase
     }
 
     /// <summary>
-    /// Sends a MyCommand request through the dispatcher.
+    /// Basic implementation for send event using Kafka.
     /// </summary>
     /// <returns>Returns 200 OK if the command is successful, otherwise returns 400 Bad Request with the error message.</returns>
     [HttpPost("kafkaEvent")]
