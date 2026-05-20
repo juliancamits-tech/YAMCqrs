@@ -176,3 +176,9 @@ internal sealed class DomainEventSubscribeHanlder
 
 - `YAMCqrs.EventBus.Core`
 - `YAMCqrs.BackgroundWorker`
+
+## Code Analyzers
+
+ID | Categoria | Nivel | Notas
+--------|----------|----------|-------
+YAMCEBUS001 | Usage | ERROR | SourceGenerator requires that the value received by SubscribeEvent be constant and not created at runtime.

@@ -4,7 +4,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 using System.Collections.Immutable;
 
-namespace YAMCqrs.BackgroundWorker.Analyzers.BackgroundServiceUsage;
+namespace YAMCqrs.BackgroundWorker.Core.Analyzers.BackgroundServiceUsage;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public class BackgroundServiceUsageAnalyzer : DiagnosticAnalyzer
@@ -21,7 +21,7 @@ public class BackgroundServiceUsageAnalyzer : DiagnosticAnalyzer
         Title,
         MessageFormat,
         Category,
-        DiagnosticSeverity.Error,
+        DiagnosticSeverity.Warning,
         isEnabledByDefault: true,
         description: Description);
 

@@ -21,4 +21,17 @@
     <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="10.0.2" />
   </ItemGroup>
 
+
+	<!--Begin Analyzer-->
+	<!-- Referencia al proyecto Analyzer -->
+	<ItemGroup Label="Analyzers">
+		<ProjectReference Include="..\YAMCqrs.BackgroundWorker.Core.Analyzers\YAMCqrs.BackgroundWorker.Core.Analyzers.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" PrivateAssets="all" SetTargetFramework="TargetFramework=netstandard2.0" />
+	</ItemGroup>
+
+	<!-- DLLs de Analyzer y Source Generator empaquetadas de forma estática (compatible con -no-build) -->
+	<ItemGroup Label="Pack Analyzers">
+		<None Include="..\YAMCqrs.BackgroundWorker.Core.Analyzers\bin\$(Configuration)\netstandard2.0\YAMCqrs.BackgroundWorker.Core.Analyzers.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" Condition="Exists('..\YAMCqrs.BackgroundWorker.Core.Analyzers\bin\$(Configuration)\netstandard2.0\YAMCqrs.BackgroundWorker.Core.Analyzers.dll')" />
+	</ItemGroup>
+	<!--End Analyzer-->
+
 </Project>

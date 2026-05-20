@@ -292,3 +292,10 @@ protected override int ParallelismDegree()
 ### Limpieza Automática
 
 El `CleanBackGroundWorker` se ejecuta cada 1 hora para limpiar ejecuciones antiguas según tu configuración.
+
+
+## Code Analyzers
+
+ID | Categoria | Nivel | Notas
+--------|----------|----------|-------
+YAMCBgWo001 | Usage | Warning | usar YABackgroundWorker en vez de BackgroundService
