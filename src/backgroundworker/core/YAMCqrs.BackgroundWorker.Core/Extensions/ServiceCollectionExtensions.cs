@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using System.Diagnostics.CodeAnalysis;
 using YAMCqrs.BackgroundWorker.Core.Abstractions;
 using YAMCqrs.BackgroundWorker.Core.Configuration;
 using YAMCqrs.BackgroundWorker.Core.CustomHealthCheck;
@@ -53,6 +54,7 @@ public interface IBackgroundWorkerBuilder
     BackgroundWorkerConfiguration Configuration { get; }
 }
 
+[ExcludeFromCodeCoverage(Justification = "Wraper class with no logic")]
 internal sealed class BackgroundWorkerBuilder(IServiceCollection services, BackgroundWorkerConfiguration configuration) : IBackgroundWorkerBuilder
 {
     public IServiceCollection Services => services;

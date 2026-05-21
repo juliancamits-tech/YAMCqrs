@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System.Diagnostics.CodeAnalysis;
 using YAMCqrs.BackgroundWorker.Core.Abstractions;
 using YAMCqrs.BackgroundWorker.Core.Configuration;
 using YAMCqrs.BackgroundWorker.Core.Domain;
@@ -11,8 +12,10 @@ namespace YAMCqrs.BackgroundWorker.Core.Implementation;
 /// Background worker that periodically cleans old execution records from storage.
 /// Runs every 5 minutes to remove outdated execution history.
 /// </summary>
-public class CleanBackGroundWorker(IServiceProvider serviceProvider, ILogger<CleanBackGroundWorker> logger) : YABackgroundWorker<int>(serviceProvider, logger)
+public class CleanBackGroundWorker(IServiceProvider serviceProvider, ILogger<CleanBackGroundWorker> logger, IOptions<BackgroundWorkerConfiguration> options) : YABackgroundWorker<int>(serviceProvider, logger)
 {
+    private readonly BackgroundWorkerConfiguration _configuration = options.Value;
+
     protected override Task BatchPostProcesing(IServiceScope serviceScope, WorkerExecution currentExecution, CancellationToken stoppingToken)
     {
         return Task.CompletedTask;
@@ -42,6 +45,7 @@ public class CleanBackGroundWorker(IServiceProvider serviceProvider, ILogger<Cle
     /// <summary>
     /// No cleanup required when the worker stops.
     /// </summary>
+    [ExcludeFromCodeCoverage(Justification = "Nothing to test")]
     protected override void FinalCleanUp()
     {
         return;
@@ -79,17 +83,13 @@ public class CleanBackGroundWorker(IServiceProvider serviceProvider, ILogger<Cle
     {
         ArgumentNullException.ThrowIfNull(serviceScope);
 
-        var options = serviceScope.ServiceProvider.GetService<IOptions<BackgroundWorkerConfiguration>>();
-        var optValue = options?.Value;
-
-        ArgumentNullException.ThrowIfNull(optValue);
-
         var storage = serviceScope.ServiceProvider.GetRequiredService<IWorkerStorage>();
-        await storage.CleanStorageAsync(optValue.GetDateForSuccessfulTaskCleanup(), optValue.GetDateForFailedTaskCleanup());
+        await storage.CleanStorageAsync(_configuration.GetDateForSuccessfulTaskCleanup(), _configuration.GetDateForFailedTaskCleanup(), stoppingToken);
 
         return true;
     }
 
+    [ExcludeFromCodeCoverage(Justification = "Can't have empty Result, this functions never is called.")]
     protected override bool SkipEmptyResults()
     {
         return true;

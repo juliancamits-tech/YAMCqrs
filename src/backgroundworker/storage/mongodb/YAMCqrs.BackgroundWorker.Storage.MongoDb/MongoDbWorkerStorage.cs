@@ -62,26 +62,26 @@ internal sealed class MongoDbWorkerStorage : IWorkerStorage
     ]);
     }
     /// <inheritdoc/>
-    public async Task AddAsync(WorkerExecution execution)
+    public async Task AddAsync(WorkerExecution execution, CancellationToken cancellationToken)
     {
         var document = WorkerExecutionDocument.FromDomain(execution);
-        await _collection.InsertOneAsync(document);
+        await _collection.InsertOneAsync(document, null, cancellationToken);
     }
 
     /// <inheritdoc/>
-    public async Task<WorkerExecution?> GetLastExecutionAsync(string workerName)
+    public async Task<WorkerExecution?> GetLastExecutionAsync(string workerName, CancellationToken cancellationToken)
     {
         var document = await _collection
             .Find(Builders<WorkerExecutionDocument>.Filter.Eq(e => e.WorkerName, workerName))
             .Sort(Builders<WorkerExecutionDocument>.Sort.Descending(e => e.ExecutionStartTime))
             .Limit(1)
-            .FirstOrDefaultAsync();
+            .FirstOrDefaultAsync(cancellationToken);
 
         return document?.ToDomain();
     }
 
     /// <inheritdoc/>
-    public async Task<List<WorkerExecution>> GetLastExecutionByWorkerAsync()
+    public async Task<List<WorkerExecution>> GetLastExecutionByWorkerAsync(CancellationToken cancellationToken)
     {
         // $group replaces _id with WorkerName (string), which conflicts with WorkerExecutionDocument's
         // [BsonId] Guid field. The pipeline outputs BsonDocument and is mapped manually.
@@ -102,7 +102,7 @@ internal sealed class MongoDbWorkerStorage : IWorkerStorage
             })
         ]);
 
-        var rawDocuments = await _collection.Aggregate(pipeline).ToListAsync();
+        var rawDocuments = await _collection.Aggregate(pipeline, null, cancellationToken).ToListAsync(cancellationToken);
 
         return [.. rawDocuments
             .Select(doc => new WorkerExecutionDocument
@@ -119,10 +119,10 @@ internal sealed class MongoDbWorkerStorage : IWorkerStorage
     }
 
     /// <inheritdoc/>
-    public async Task CleanStorageAsync(DateTime dateForCompleted, DateTime dateForError)
+    public async Task CleanStorageAsync(DateTime dateForCompleted, DateTime dateForError, CancellationToken cancellationToken)
     {
         // 1. Identificar los IDs de los documentos más nuevos que NO debemos borrar
-        var idsToKeep = await GetLatestExecutionIdsAsync();
+        var idsToKeep = await GetLatestExecutionIdsAsync(cancellationToken);
 
         // 2. Filtro base para Executions Exitosas viejas
         var successFilter = Builders<WorkerExecutionDocument>.Filter.And(
@@ -147,10 +147,10 @@ internal sealed class MongoDbWorkerStorage : IWorkerStorage
         }
 
         // 6. Ejecutar el borrado seguro
-        await _collection.DeleteManyAsync(combinedFilter);
+        await _collection.DeleteManyAsync(combinedFilter, null, cancellationToken);
     }
 
-    private async Task<List<Guid>> GetLatestExecutionIdsAsync()
+    private async Task<List<Guid>> GetLatestExecutionIdsAsync(CancellationToken cancellationToken)
     {
         // Separamos en dos agregaciones: una para el set de exitosos y otra para el de fallidos
         // (Asumiendo que por "cada set" te refieres al set de Exitosos y al set de Fallidos)
@@ -160,14 +160,14 @@ internal sealed class MongoDbWorkerStorage : IWorkerStorage
             .Sort(Builders<WorkerExecutionDocument>.Sort.Descending(e => e.ExecutionStartTime))
             .Limit(1)
             .Project(e => e.Id)
-            .FirstOrDefaultAsync();
+            .FirstOrDefaultAsync(cancellationToken);
 
         var failedLatest = await _collection.Aggregate()
             .Match(Builders<WorkerExecutionDocument>.Filter.Nin(e => e.Status, SuccessfulStatuses))
             .Sort(Builders<WorkerExecutionDocument>.Sort.Descending(e => e.ExecutionStartTime))
             .Limit(1)
             .Project(e => e.Id)
-            .FirstOrDefaultAsync();
+            .FirstOrDefaultAsync(cancellationToken);
 
         var ids = new List<Guid>();
         if (successLatest != default) ids.Add(successLatest);

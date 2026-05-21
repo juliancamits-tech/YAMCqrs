@@ -7,18 +7,18 @@ public interface IWorkerStorage
     /// <summary>
     /// Save the result of a worker execution
     /// </summary>
-    public Task AddAsync(WorkerExecution execution);
+    public Task AddAsync(WorkerExecution execution, CancellationToken cancellationToken = default);
     /// <summary>
     /// Get the last execution of a worker
     /// </summary>
-    public Task<WorkerExecution?> GetLastExecutionAsync(string workerName);
+    public Task<WorkerExecution?> GetLastExecutionAsync(string workerName, CancellationToken cancellationToken = default);
     /// <summary>
     /// Clean storage of old worker executions
     /// </summary>
-    public Task CleanStorageAsync(DateTime dateForCompleted, DateTime dateForError);
+    public Task CleanStorageAsync(DateTime dateForCompleted, DateTime dateForError, CancellationToken cancellationToken = default);
     /// <summary>
     /// Get the last execution of each worker
     /// </summary>
     /// <returns>List of the last execution for each workerName</returns>
-    public Task<List<WorkerExecution>> GetLastExecutionByWorkerAsync();
+    public Task<List<WorkerExecution>> GetLastExecutionByWorkerAsync(CancellationToken cancellationToken = default);
 }

@@ -35,7 +35,7 @@ internal sealed class HealthCheckReport(IWorkerStorage workerStorage) : IHealthC
     /// </returns>
     public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
     {
-        var lastExecutions = await workerStorage.GetLastExecutionByWorkerAsync();
+        var lastExecutions = await workerStorage.GetLastExecutionByWorkerAsync(cancellationToken);
 
         var countHealthy = 0;
         var countUnhealthy = 0;

@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System.Diagnostics.CodeAnalysis;
 using YAMCqrs.BackgroundWorker.Core.Domain;
 
 
@@ -142,7 +143,7 @@ public abstract partial class YABackgroundWorker<TWorkItem>(IServiceProvider ser
                     }
 
                     if (SaveEmptyResult(workerExecution))
-                        await _workerStorage.AddAsync(workerExecution);
+                        await _workerStorage.AddAsync(workerExecution, stoppingToken);
                 }
 
                 YABackgroundWorkerLogger.LogSleeping(_logger);
@@ -159,7 +160,7 @@ public abstract partial class YABackgroundWorker<TWorkItem>(IServiceProvider ser
     /// </summary>
     private async Task FirstTimeSleep(CancellationToken cancellationToken)
     {
-        var lastExecution = await _workerStorage.GetLastExecutionAsync(this.GetType().FullName ?? this.GetType().Name);
+        var lastExecution = await _workerStorage.GetLastExecutionAsync(this.GetWorkerName(), cancellationToken);
         if (lastExecution != null)
         {
             YABackgroundWorkerLogger.LogSleeping(_logger);
@@ -167,6 +168,7 @@ public abstract partial class YABackgroundWorker<TWorkItem>(IServiceProvider ser
         }
     }
 
+    [ExcludeFromCodeCoverage(Justification = "Reflection, hard to test.")]
     protected string GetWorkerName()
     {
         return this.GetType().FullName ?? this.GetType().Name;
@@ -177,8 +179,7 @@ public abstract partial class YABackgroundWorker<TWorkItem>(IServiceProvider ser
     /// without requiring an instance of the worker.
     /// </summary>
     /// <typeparam name="TWorker">The concrete worker type.</typeparam>
-    /// <example>
-    /// </example>
+    [ExcludeFromCodeCoverage(Justification = "Reflection, hard to test.")]
     public static string GetWorkerName<TWorker>() where TWorker : YABackgroundWorker<TWorkItem>
         => typeof(TWorker).FullName ?? typeof(TWorker).Name;
 

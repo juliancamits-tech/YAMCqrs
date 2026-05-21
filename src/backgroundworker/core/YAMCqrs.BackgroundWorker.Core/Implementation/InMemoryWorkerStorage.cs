@@ -32,7 +32,7 @@ internal sealed class InMemoryWorkerStorage : IWorkerStorage
     /// </summary>
     /// <param name="execution">The execution record to store.</param>
     /// <returns>A completed task.</returns>
-    public Task AddAsync(WorkerExecution execution)
+    public Task AddAsync(WorkerExecution execution, CancellationToken cancellationToken)
     {
         var workerExecutions = _executions.GetOrAdd(execution.WorkerName, _ => new ConcurrentDictionary<Guid, WorkerExecution>());
         workerExecutions.TryAdd(execution.Id, execution);
@@ -45,7 +45,7 @@ internal sealed class InMemoryWorkerStorage : IWorkerStorage
     /// <param name="dateForCompleted">Cutoff date for successful executions. Records older than this will be removed.</param>
     /// <param name="dateForError">Cutoff date for failed executions. Records older than this will be removed.</param>
     /// <returns>A completed task.</returns>
-    public Task CleanStorageAsync(DateTime dateForCompleted, DateTime dateForError)
+    public Task CleanStorageAsync(DateTime dateForCompleted, DateTime dateForError, CancellationToken cancellationToken)
     {
         foreach (var worker in _executions)
         {
@@ -76,7 +76,7 @@ internal sealed class InMemoryWorkerStorage : IWorkerStorage
     /// </summary>
     /// <param name="workerName">The name of the worker.</param>
     /// <returns>The last execution record, or null if none exists.</returns>
-    public Task<WorkerExecution?> GetLastExecutionAsync(string workerName)
+    public Task<WorkerExecution?> GetLastExecutionAsync(string workerName, CancellationToken cancellationToken)
     {
         if (!_executions.TryGetValue(workerName, out var workerExecutions))
             return Task.FromResult<WorkerExecution?>(null);
@@ -90,7 +90,7 @@ internal sealed class InMemoryWorkerStorage : IWorkerStorage
     /// Retrieves the most recent execution record for each distinct worker.
     /// </summary>
     /// <returns>A list containing the last execution for each worker.</returns>
-    public Task<List<WorkerExecution>> GetLastExecutionByWorkerAsync()
+    public Task<List<WorkerExecution>> GetLastExecutionByWorkerAsync(CancellationToken cancellationToken)
     {
         var result = new List<WorkerExecution>();
 
