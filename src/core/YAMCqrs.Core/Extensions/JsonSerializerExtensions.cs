@@ -1,7 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 
 namespace YAMCqrs.Core.Extensions;
 
+[ExcludeFromCodeCoverage(Justification = "Its a wrapper for good use of System.Text.Json")]
 public static class JsonSerializerExtensions
 {
     public readonly static JsonSerializerOptions JsonSerializerOptions = new()

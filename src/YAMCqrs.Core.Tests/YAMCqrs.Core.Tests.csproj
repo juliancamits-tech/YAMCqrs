@@ -32,8 +32,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Core\" />
 		<Folder Include="SourceGeneration\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\core\YAMCqrs.Core\YAMCqrs.Core.csproj" />
 	</ItemGroup>
 
 </Project>
