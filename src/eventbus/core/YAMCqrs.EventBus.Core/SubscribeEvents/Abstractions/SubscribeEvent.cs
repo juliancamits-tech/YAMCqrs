@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Serialization;
 using YAMCqrs.Core.Abstractions.Commands;
 
 namespace YAMCqrs.EventBus.Core.SubscribeEvents.Abstractions;
@@ -11,6 +12,7 @@ namespace YAMCqrs.EventBus.Core.SubscribeEvents.Abstractions;
 /// <remarks>
 /// Constructor that forces derived classes to provide the topic
 /// </remarks>
+[ExcludeFromCodeCoverage(Justification = "Class with no real logic.")]
 public abstract class SubscribeEvent(string topic) : ICommand<bool>
 {
     public abstract ServiceBusProvider Provider { get; }

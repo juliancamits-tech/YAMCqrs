@@ -32,9 +32,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Core\" />
 		<Folder Include="Analyzers\" />
 		<Folder Include="SourceGeneration\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\YAMCqrs.EventBus.Core\YAMCqrs.EventBus.Core.csproj" />
 	</ItemGroup>
 
 </Project>

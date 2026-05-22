@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System.Diagnostics.CodeAnalysis;
 using YAMCqrs.BackgroundWorker.Core.Abstractions;
 using YAMCqrs.BackgroundWorker.Core.Domain;
 using YAMCqrs.EventBus.Core.Configuration;
@@ -186,7 +187,7 @@ internal sealed partial class PublishEventProcessorService(
     {
         return _configuration.ConcurrentWorkers;
     }
-
+    [ExcludeFromCodeCoverage(Justification ="Nothing to test.")]
     protected override void FinalCleanUp()
     {
         return;

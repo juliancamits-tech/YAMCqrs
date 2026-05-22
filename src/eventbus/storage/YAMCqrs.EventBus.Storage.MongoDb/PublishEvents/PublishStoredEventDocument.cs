@@ -29,12 +29,6 @@ internal sealed class PublishStoredEventDocument
     public ServiceBusProvider EventDestination { get; set; }
 
     /// <summary>
-    /// The routing key for the event (optional).
-    /// </summary>
-    [BsonIgnoreIfNull]
-    public string? RoutingKey { get; set; }
-
-    /// <summary>
     /// The JSON value of the event.
     /// </summary>
     public string Value { get; set; } = string.Empty;

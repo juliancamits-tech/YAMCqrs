@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
 namespace YAMCqrs.EventBus.Core.PublishEvents.Abstractions;
@@ -24,6 +25,7 @@ public abstract class PublishEvent
     /// Event type name for deserialization
     /// </summary>
     [JsonIgnore]
+    [ExcludeFromCodeCoverage(Justification = "Really hard for simulate, need advance reflection tricks, the throw is just for reduce IDE warnings")]
     public string EventType => GetType().FullName ?? throw new InvalidOperationException("Event type must have a full name");
 
     /// <summary>

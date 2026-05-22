@@ -6,7 +6,7 @@ namespace YAMCqrs.EventBus.Core.PublishEvents.Domain;
 /// <summary>
 /// Represents a stored event with metadata
 /// </summary>
-public sealed class PublishStoredEvent
+public class PublishStoredEvent
 {
     /// <summary>
     /// Gets the unique identifier of the stored event
@@ -22,11 +22,6 @@ public sealed class PublishStoredEvent
     /// Gets the destination for the event (Internal or external system)
     /// </summary>
     public ServiceBusProvider EventDestination { get; private set; }
-
-    /// <summary>
-    /// Gets the routing key for the event (optional)
-    /// </summary>
-    public string? RoutingKey { get; private set; }
 
     /// <summary>
     /// Gets the JSON value of the event
@@ -72,8 +67,7 @@ public sealed class PublishStoredEvent
     public PublishStoredEvent(
         Guid id,
         string eventType,
-        ServiceBusProvider eventDestination,
-        string? routingKey,
+        ServiceBusProvider eventDestination,        
         string payload,
         DateTime createdAt,
         EventStatus status,
@@ -83,7 +77,6 @@ public sealed class PublishStoredEvent
         Id = id;
         EventType = eventType;
         EventDestination = eventDestination;
-        RoutingKey = routingKey;
         Value = payload;
         CreatedAt = createdAt;
         Status = status;

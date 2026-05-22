@@ -95,7 +95,7 @@ internal sealed partial class EventPublisher(IPublishEventStore eventStore, ILog
 
     private void EnlistInAmbientTransaction()
     {
-        if (_isEnlisted || _stagedEvents.Count == 0)
+        if (_isEnlisted)
             return;
 
         var currentTransaction = Transaction.Current;
@@ -116,18 +116,16 @@ internal sealed partial class EventPublisher(IPublishEventStore eventStore, ILog
         }
     }
 
-    private void OnTransactionCompleted(object? sender, TransactionEventArgs e)
+    internal void OnTransactionCompleted(object? sender, TransactionEventArgs e)
     {
-        if (e.Transaction?.TransactionInformation.Status == TransactionStatus.Committed)
-        {
-            LogCommittingEventsToEventStore(_stagedEvents.Count);
-            CommitEventsSync();
-        }
-        else
+        if (e.Transaction is null || e.Transaction.TransactionInformation.Status != TransactionStatus.Committed)
         {
             LogTransactionAborted(_stagedEvents.Count);
             _stagedEvents.Clear();
         }
+
+        LogCommittingEventsToEventStore(_stagedEvents.Count);
+        CommitEventsSync();
     }
 
     private void CommitEventsSync()
@@ -164,14 +162,6 @@ internal sealed partial class EventPublisher(IPublishEventStore eventStore, ILog
     {
         if (_isDisposed)
             return;
-
-        // If there are staged events and we're NOT enlisted in a transaction,
-        // it means no transaction scope was used - commit immediately
-        if (_stagedEvents.Count > 0 && !_isEnlisted)
-        {
-            LogDisposingWithStagedEvents(_stagedEvents.Count);
-            CommitEventsSync();
-        }
 
         _stagedEvents.Clear();
         _isDisposed = true;

@@ -1,11 +1,15 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace YAMCqrs.EventBus.Core.Configuration;
 
+[ExcludeFromCodeCoverage(Justification = "Configuration class with no logic.")]
 public class EventBusConfiguration
 {
     public WorkerConfiguration PublishConfiguration { get; init; } = new WorkerConfiguration();
     public WorkerConfiguration SubscribeConfiguration { get; init; } = new WorkerConfiguration();
 }
 
+[ExcludeFromCodeCoverage(Justification = "Configuration class with no logic.")]
 public class WorkerConfiguration()
 {
     public int ConcurrentWorkers { get; set; } = 4;

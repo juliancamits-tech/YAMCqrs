@@ -1,6 +1,6 @@
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using System.Diagnostics.CodeAnalysis;
 using YAMCqrs.EventBus.Core.Configuration;
 using YAMCqrs.EventBus.Core.EventBus.Abstractions;
 using YAMCqrs.EventBus.Core.EventBus.Implementation;
@@ -20,6 +20,7 @@ public static class ServiceCollectionExtensions
         EventBusConfiguration Configuration { get; }
     }
 
+    [ExcludeFromCodeCoverage(Justification = "Is just a Wraper. no logic here.")]
     public class EventBusBuilder(IServiceCollection services, EventBusConfiguration configuration) : IEventBusBuilder
     {
         public IServiceCollection Services => services;

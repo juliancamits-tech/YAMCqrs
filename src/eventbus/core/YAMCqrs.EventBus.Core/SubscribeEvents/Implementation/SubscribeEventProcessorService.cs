@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System.Diagnostics.CodeAnalysis;
 using YAMCqrs.BackgroundWorker.Core.Abstractions;
 using YAMCqrs.BackgroundWorker.Core.Domain;
 using YAMCqrs.Core.Abstractions;
@@ -27,6 +28,7 @@ internal sealed partial class SubscribeEventProcessorService(
         return Task.FromResult(!_topicToCommand.IsEmpty());
     }
 
+    [ExcludeFromCodeCoverage(Justification = "Nothing to test.")]
     protected override void FinalCleanUp()
     {
         return;
@@ -99,43 +101,6 @@ internal sealed partial class SubscribeEventProcessorService(
     protected override int ErrorThresholdPercentage()
     {
         return _config.ErrorThresholdPercentage;
-    }
-
-
-    /// <summary>
-    /// Reconstructs a Command instance from the persisted message JSON data
-    /// </summary>
-    private SubscribeEvent? ReconstructCommand(
-        Type commandType,
-        string value,
-        Guid messageId)
-    {
-        try
-        {
-            // Get the generic method DeserializeWithConcreteType<T>
-            var method = typeof(JsonSerializerExtensions)
-                .GetMethod(nameof(JsonSerializerExtensions.DeserializeWithConcreteType))!
-                .MakeGenericMethod(commandType);
-
-            // Invoke the method with the dynamic type
-            var command = method.Invoke(null, [value]) as SubscribeEvent;
-
-            return command;
-        }
-        catch (Exception ex)
-        {
-            LogFailedToDeserialize(ex, messageId, commandType.FullName ?? commandType.Name);
-            return null;
-        }
-    }
-
-
-    /// <summary>
-    /// Gets the correlation ID from the current activity or generates a new one
-    /// </summary>
-    private static string? GetCorrelationId()
-    {
-        return System.Diagnostics.Activity.Current?.TraceId.ToString();
     }
 
     protected override Task BatchSetupAsync(IServiceScope serviceScope, CancellationToken stoppingToken)

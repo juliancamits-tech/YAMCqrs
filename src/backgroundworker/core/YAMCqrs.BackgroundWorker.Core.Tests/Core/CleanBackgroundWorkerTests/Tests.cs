@@ -1,19 +1,11 @@
-﻿using Castle.Core.Logging;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Microsoft.Testing.Platform.Logging;
 using NSubstitute;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Xunit.Sdk;
 using YAMCqrs.BackgroundWorker.Core.Abstractions;
 using YAMCqrs.BackgroundWorker.Core.Configuration;
 using YAMCqrs.BackgroundWorker.Core.Domain;
 using YAMCqrs.BackgroundWorker.Core.Implementation;
-using static Xunit.Sdk.TestOptionsNames;
 
 namespace YAMCqrs.BackgroundWorker.Core.Tests.Core.CleanBackgroundWorkerTests;
 

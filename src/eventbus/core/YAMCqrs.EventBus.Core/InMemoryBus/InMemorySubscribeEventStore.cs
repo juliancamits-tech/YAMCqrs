@@ -50,8 +50,7 @@ internal sealed class InMemorySubscribeEventStore : ISubscribeEventStore
 
     public Task MarkAsFailedAsync(SubscribeStoredEvent storedEvent, CancellationToken cancellationToken = default)
     {
-        if (storedEvent.Status == EventStatus.Failed)
-            _messages.TryRemove(storedEvent.Id, out var _);
+        _messages.TryRemove(storedEvent.Id, out var _);
 
         return Task.CompletedTask;
     }

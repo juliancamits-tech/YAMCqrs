@@ -1,5 +1,8 @@
-﻿namespace YAMCqrs.EventBus.Core;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace YAMCqrs.EventBus.Core;
+
+[ExcludeFromCodeCoverage(Justification = "Just Propertys nothing to test.")]
 internal static class InternalSharedStatics
 {
     /// <summary>

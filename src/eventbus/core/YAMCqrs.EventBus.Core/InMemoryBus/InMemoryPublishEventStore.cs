@@ -15,8 +15,8 @@ internal sealed partial class InMemoryPublishEventStore(ILogger<InMemoryPublishE
     private readonly ConcurrentDictionary<Guid, PublishStoredEvent> _events = ConcurrentDictionaryExtension.CreateNewDictionary<Guid, PublishStoredEvent>();
 
     #region Logger
-    [LoggerMessage(Level = LogLevel.Information, Message = "Event stored: {EventType} [{EventId}] → {Destination}{RoutingKey}")]
-    private partial void EventStored(string eventType, Guid eventId, ServiceBusProvider destination, string routingKey);
+    [LoggerMessage(Level = LogLevel.Information, Message = "Event stored: {EventType} [{EventId}] → {Destination}")]
+    private partial void EventStored(string eventType, Guid eventId, ServiceBusProvider destination);
 
     [LoggerMessage(Level = LogLevel.Information, Message = "Event marked as processed: [{EventId}]")]
     private partial void EventProcessed(Guid eventId);
@@ -33,7 +33,7 @@ internal sealed partial class InMemoryPublishEventStore(ILogger<InMemoryPublishE
         var storedEvent = new PublishStoredEvent(@event);
 
         _events.TryAdd(storedEvent.Id, storedEvent);
-        EventStored(storedEvent.EventType, storedEvent.Id, storedEvent.EventDestination, storedEvent.RoutingKey ?? string.Empty);
+        EventStored(storedEvent.EventType, storedEvent.Id, storedEvent.EventDestination);
 
         return Task.CompletedTask;
     }
