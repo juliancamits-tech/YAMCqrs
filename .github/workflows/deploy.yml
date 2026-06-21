@@ -1,10 +1,29 @@
 name: Auto Deploy YAMCqrs Packages
 
+# =========================================================
+# TRIGGERS
+# =========================================================
+
 on:
   push:
     branches:
       - main
 
+    paths:
+      - 'src/**'
+      - '.github/workflows/deploy.yml'
+
+# =========================================================
+# OIDC / TRUSTED PUBLISHER
+# =========================================================
+
+permissions:
+  id-token: write
+  contents: write
+  
+# =========================================================
+# JOBS
+# =========================================================
 jobs:
   check-and-deploy:
     runs-on: ubuntu-latest
