@@ -48,4 +48,24 @@ public enum ServiceBusProvider
     /// Kafka provider for event publishing. Requires additional configuration and dependencies. Suitable for production use with Kafka infrastructure.
     /// </summary>
     Kafka = 2,
+    /// <summary>
+    /// RabbitMq provider for event publishing. Requires additional configuration and dependencies. Suitable for production use with Kafka infrastructure.
+    /// </summary>
+    RabbitMq = 3,
+    /// <summary>
+    /// CustomImplementation
+    /// </summary>
+    CustomImplementation1 = 999,
+    /// <summary>
+    /// CustomImplementation
+    /// </summary>
+    CustomImplementation2 = 9999,
+    /// <summary>
+    /// CustomImplementation
+    /// </summary>
+    CustomImplementation3 = 99999,
+    /// <summary>
+    /// CustomImplementation
+    /// </summary>
+    CustomImplementation4 = 999999,
 }

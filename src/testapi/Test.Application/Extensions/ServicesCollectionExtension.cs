@@ -1,8 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using YAMCqrs.BackgroundWorker.Core.Extensions;
 using YAMCqrs.BackgroundWorker.Storage.MongoDb;
-using YAMCqrs.Core;
-using YAMCqrs.EventBus.Core;
 using YAMCqrs.EventBus.Provider.Kafka;
 using YAMCqrs.EventBus.Storage.MongoDb.Extensions;
 
@@ -48,6 +46,10 @@ public static class ServicesCollectionExtension
             KafkaClientName = "TestApp",
             KafkaGroupName = "TestApp",
         })
-        ;
+        .UseRabbit(new YAMCqrs.EventBus.Provider.RabbitMq.Configuration.RabbitConfigurationOptions()
+        {
+            ConnectionString = "cs_Rabbit",
+            QueueGroupName = "TestApp",
+        });
     }
 }

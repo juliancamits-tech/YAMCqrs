@@ -11,6 +11,7 @@ Yet another Cqrs + Mediator framework for .NET
 |[YAMCqrs.Core](docs/packages/YAMCqrs.Core_en.md)|Core Package|[![NuGet Version](https://img.shields.io/nuget/v/YAMCqrs.Core.svg?style=flat-square)](https://www.nuget.org/packages/YAMCqrs.Core/)|[![NuGet Downloads](https://img.shields.io/nuget/dt/YAMCqrs.Core.svg?style=flat-square)](https://www.nuget.org/packages/YAMCqrs.Core/)|
 |[YAMCqrs.EventBus.Core](docs/packages/YAMCqrs.EventBus.Core_en.md)|Event Bus Core Package and Domain Event|[![NuGet Version](https://img.shields.io/nuget/v/YAMCqrs.Core.svg?style=flat-square)](https://www.nuget.org/packages/YAMCqrs.EventBus.Core/)|[![NuGet Downloads](https://img.shields.io/nuget/dt/YAMCqrs.Core.svg?style=flat-square)](https://www.nuget.org/packages/YAMCqrs.EventBus.Core/)|
 |[YAMCqrs.EventBus.Provider.Kafka](docs/packages/YAMCqrs.EventBus.Provider.Kafka_en.md)|Kafka Event Bus Provider|[![NuGet Version](https://img.shields.io/nuget/v/YAMCqrs.Core.svg?style=flat-square)](https://www.nuget.org/packages/YAMCqrs.EventBus.Provider.Kafka/)|[![NuGet Downloads](https://img.shields.io/nuget/dt/YAMCqrs.Core.svg?style=flat-square)](https://www.nuget.org/packages/YAMCqrs.EventBus.Provider.Kafka/)|
+|[YAMCqrs.EventBus.Provider.RabbitMq](docs/packages/YAMCqrs.EventBus.Provider.Rabbit_en.md)|RabbitMq Event Bus Provider|[![NuGet Version](https://img.shields.io/nuget/v/YAMCqrs.Core.svg?style=flat-square)](https://www.nuget.org/packages/YAMCqrs.EventBus.Provider.RabbitMq/)|[![NuGet Downloads](https://img.shields.io/nuget/dt/YAMCqrs.Core.svg?style=flat-square)](https://www.nuget.org/packages/YAMCqrs.EventBus.Provider.RabbitMq/)|
 |[YAMCqrs.EventBus.Storage.MongoDb](docs/packages/YAMCqrs.EventBus.Storage.MongoDb_en.md)|MongoDb Storage for Events|[![NuGet Version](https://img.shields.io/nuget/v/YAMCqrs.Core.svg?style=flat-square)](https://www.nuget.org/packages/YAMCqrs.EventBus.Storage.MongoDb/)|[![NuGet Downloads](https://img.shields.io/nuget/dt/YAMCqrs.Core.svg?style=flat-square)](https://www.nuget.org/packages/YAMCqrs.EventBus.Storage.MongoDb/)|
 
 (I am going to translate this to english when i have a more usable version)
@@ -51,6 +52,6 @@ Yet another Cqrs + Mediator framework for .NET
 
 [-] Check if enums can be used in more perfomant way.
 
-[-] Add RabbitMq
+[X] Add RabbitMq
 
 [-] Define for Relational database (SqlServer, Postgre) we are using EF, Dapper or the direct driver for each.
