@@ -1,7 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System.Linq;
 using System.Diagnostics;
+using System.Linq;
 using YAMCqrs.EventBus.Provider.Kafka.SourceGeneration.GeneratorHelper;
 
 namespace YAMCqrs.EventBus.Provider.Kafka.SourceGeneration;
@@ -151,7 +151,7 @@ public class MainGenerator : IIncrementalGenerator
         //Ignorar interfaces, enums, structs - solo procesar clases
         if (classSymbol.TypeKind != TypeKind.Class || classSymbol.IsAbstract)
             return false;
-        
+
         var currentType = classSymbol.BaseType;
 
         while (currentType is not null)

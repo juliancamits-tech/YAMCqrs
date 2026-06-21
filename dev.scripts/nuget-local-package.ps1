@@ -8,6 +8,7 @@ $projectsToPack = @(
     ".\src\core\YAMCqrs.Core\YAMCqrs.Core.csproj" #Core
     ".\src\eventbus\core\YAMCqrs.EventBus.Core\YAMCqrs.EventBus.Core.csproj" #Core EventBus
     ".\src\eventbus\provider\kafka\YAMCqrs.EventBus.Provider.Kafka\YAMCqrs.EventBus.Provider.Kafka.csproj" #EventBus Kafka Provider
+    ".\src\eventbus\provider\rabbit\YAMCqrs.EventBus.Provider.RabbitMq\YAMCqrs.EventBus.Provider.RabbitMq.csproj" #EventBus Rabbit Provider
     ".\src\eventbus\storage\YAMCqrs.EventBus.Storage.MongoDb\YAMCqrs.EventBus.Storage.MongoDb.csproj" #EventBus MongoDB Storage
 )
 

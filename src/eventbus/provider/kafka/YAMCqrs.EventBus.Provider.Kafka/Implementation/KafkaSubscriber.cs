@@ -3,8 +3,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
 using System.Text;
 using YAMCqrs.EventBus.Core;
 using YAMCqrs.EventBus.Core.SubscribeEvents.Abstractions;

@@ -135,7 +135,7 @@ internal sealed partial class PublishEventProcessorService(
         return pendingEvents;
     }
 
-    
+
     protected override async Task<bool> ProcessItemAsync(PublishStoredEvent item, IServiceScope serviceScope, Guid workerId, CancellationToken stoppingToken)
     {
         try

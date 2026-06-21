@@ -2,6 +2,7 @@ using Scalar.Aspire;
 using Test.Aspire.Extensions;
 
 var builder = DistributedApplication.CreateBuilder(args);
+
 var mongo = builder.AddMongoDB("MongoDb", userName: builder.GetSaUser(), password: builder.GetSaPass());
 var mongoPort = mongo.Resource.Port;
 var dbGate = builder.AddContainer("DbGate", "dbgate/dbgate:latest");
@@ -20,10 +21,12 @@ dbGate.WithEnvironment("ENGINE_mongo", "mongo@dbgate-plugin-mongo")
 .WaitFor(mongo);
 
 var kafka = builder.AddKafka("Kafka").WithKafkaUI();
+var rabbitMq = builder.AddRabbitMQ("rabbit", builder.GetSaUser(), builder.GetSaPass()).WithManagementPlugin();
 
 var api = builder.AddProject<Projects.Test_Api>("Api")
 .WithReference(mongo).WaitFor(mongo)
-.WithReference(kafka).WaitFor(kafka);
+.WithReference(kafka).WaitFor(kafka)
+.WithReference(rabbitMq).WaitFor(rabbitMq);
 
 // Add API Reference
 var scalar = builder.AddScalarApiReference()

@@ -61,7 +61,7 @@ internal sealed partial class SubscribeEventProcessorService(
             var dispatcher = serviceScope.ServiceProvider.GetRequiredService<IDispatcher>();
             var r = await dispatcher.SendAsync(command!, stoppingToken);
 
-            
+
             if (r.IsSuccess)
             {
                 item.SetProcessed();

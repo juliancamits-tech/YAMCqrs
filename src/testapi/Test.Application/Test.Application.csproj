@@ -11,6 +11,7 @@
 		<ProjectReference Include="..\..\backgroundworker\storage\mongodb\YAMCqrs.BackgroundWorker.Storage.MongoDb\YAMCqrs.BackgroundWorker.Storage.MongoDb.csproj" />
 		<ProjectReference Include="..\..\EventBus\core\YAMCqrs.EventBus.Core\YAMCqrs.EventBus.Core.csproj" />
 		<ProjectReference Include="..\..\eventbus\provider\kafka\YAMCqrs.EventBus.Provider.Kafka\YAMCqrs.EventBus.Provider.Kafka.csproj" />
+		<ProjectReference Include="..\..\eventbus\provider\rabbit\YAMCqrs.EventBus.Provider.RabbitMq\YAMCqrs.EventBus.Provider.RabbitMq.csproj" />
 		<ProjectReference Include="..\..\eventbus\storage\YAMCqrs.EventBus.Storage.MongoDb\YAMCqrs.EventBus.Storage.MongoDb.csproj" />
 		<ProjectReference Include="..\..\core\YAMCqrs.Core\YAMCqrs.Core.csproj" />
 	</ItemGroup>
@@ -19,11 +20,12 @@
 		<ProjectReference Include="..\..\core\YAMCqrs.Core.SourceGeneration\YAMCqrs.Core.SourceGeneration.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
 		<ProjectReference Include="..\..\eventbus\core\YAMCqrs.EventBus.Core.SourceGeneration\YAMCqrs.EventBus.Core.SourceGeneration.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
 		<ProjectReference Include="..\..\eventbus\provider\kafka\YAMCqrs.EventBus.Provider.Kafka.SourceGeneration\YAMCqrs.EventBus.Provider.Kafka.SourceGeneration.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+		<ProjectReference Include="..\..\eventbus\provider\rabbit\YAMCqrs.EventBus.Provider.RabbitMq.SourceGeneration\YAMCqrs.EventBus.Provider.RabbitMq.SourceGeneration.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
 	</ItemGroup>
 
 	<ItemGroup Label="Analyzer">
-		<ProjectReference Include="..\..\backgroundworker\core\YAMCqrs.BackgroundWorker.Core.Analyzers\YAMCqrs.BackgroundWorker.Core.Analyzers.csproj"  OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
-		<ProjectReference Include="..\..\eventbus\core\YAMCqrs.EventBus.Core.Analyzers\YAMCqrs.EventBus.Core.Analyzers.csproj"  OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+		<ProjectReference Include="..\..\backgroundworker\core\YAMCqrs.BackgroundWorker.Core.Analyzers\YAMCqrs.BackgroundWorker.Core.Analyzers.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+		<ProjectReference Include="..\..\eventbus\core\YAMCqrs.EventBus.Core.Analyzers\YAMCqrs.EventBus.Core.Analyzers.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
 	</ItemGroup>
 
 
@@ -33,6 +35,10 @@
 
 	<ItemGroup>
 		<Folder Include="Extensions\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Bogus" Version="35.6.5" />
 	</ItemGroup>
 
 

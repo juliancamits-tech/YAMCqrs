@@ -14,17 +14,17 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
       - name: Setup .NET SDK
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: "10.0.x"
 
       - name: Cache NuGet packages
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
@@ -93,7 +93,7 @@ jobs:
       - name: Restore Dependencies
         if: steps.check_nuget.outputs.skip_deploy == 'false'
         run: dotnet restore ./src/solution.slnx
-        
+
       # 5. Ejecutar tests
       - name: Run Tests
         if: steps.check_nuget.outputs.skip_deploy == 'false'
@@ -120,12 +120,27 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "- NuGet packages generated successfully." >> $GITHUB_STEP_SUMMARY
 
-      # 7. Publicar paquetes NuGet + Symbols
-      - name: Push to NuGet.org
+      # =====================================================
+      # NUGET LOGIN (OIDC)
+      # =====================================================
+
+      - name: NuGet Login
         if: steps.check_nuget.outputs.skip_deploy == 'false'
+        uses: NuGet/login@v1
+        id: login
+        with:
+          user: JulianCamits
+      # =====================================================
+      # PUBLISH
+      # =====================================================
+
+      - name: Publish To NuGet
+        if: steps.check_nuget.outputs.skip_deploy == 'false'
+        env:
+          NUGET_EXPERIMENTAL_CHAIN_BUILD_RETRY_POLICY: 9,1000
         run: |
           dotnet nuget push "./nugets/*.nupkg" \
-            --api-key ${{ secrets.NUGET_API_KEY }} \
+            --api-key ${{steps.login.outputs.NUGET_API_KEY}} \
             --source https://api.nuget.org/v3/index.json \
             --skip-duplicate
 

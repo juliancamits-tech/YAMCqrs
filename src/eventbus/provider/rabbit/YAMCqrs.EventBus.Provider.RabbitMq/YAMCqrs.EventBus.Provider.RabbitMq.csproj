@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+
+		<ProjectType>Package</ProjectType>
+		<PackageId>YAMCqrs.EventBus.Provider.RabbitMq</PackageId>
+		<PackageTags>rabbit;rabbit-mq;rabbitmq;eventbus;event-driven-architecture;messaging;pubsub;integration-events;domain-events;distributed-messaging;asynchronous-processing;event-processing;outbox-pattern;cqrs;microservices;dotnet;aspnetcore</PackageTags>
+		<PackageReadmeFile>YAMCqrs.EventBus.Provider.Rabbit_en.md</PackageReadmeFile>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="RabbitMQ.Client" Version="7.2.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\..\..\..\..\docs\packages\YAMCqrs.EventBus.Provider.Rabbit_en.md" Pack="true" PackagePath="\" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\core\YAMCqrs.EventBus.Core\YAMCqrs.EventBus.Core.csproj" />
+	</ItemGroup>
+
+	<!-- Referencia al proyecto Source Generators (solo para build-time, el pack lo maneja el None item) -->
+	<ItemGroup Label="Source Generators">
+		<ProjectReference Include="..\YAMCqrs.EventBus.Provider.RabbitMq.SourceGeneration\YAMCqrs.EventBus.Provider.RabbitMq.SourceGeneration.csproj" PrivateAssets="all" ReferenceOutputAssembly="false" />
+	</ItemGroup>
+
+	<!-- DLLs de Analyzer y Source Generator empaquetadas de forma estática (compatible con no-build) -->
+	<ItemGroup Label="Pack Analyzers">
+		<None Include="..\YAMCqrs.EventBus.Provider.RabbitMq.SourceGeneration\bin\$(Configuration)\netstandard2.0\YAMCqrs.EventBus.Provider.RabbitMq.SourceGeneration.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" Condition="Exists('..\YAMCqrs.EventBus.Provider.RabbitMq.SourceGeneration\bin\$(Configuration)\netstandard2.0\YAMCqrs.EventBus.Provider.RabbitMq.SourceGeneration.dll')" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.7" />
+	</ItemGroup>
+
+</Project>

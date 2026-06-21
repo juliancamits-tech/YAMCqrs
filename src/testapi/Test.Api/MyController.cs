@@ -4,6 +4,7 @@ using Test.Application.CommandTest;
 using Test.Application.DomainEvent;
 using Test.Application.Kafka;
 using Test.Application.QueryTest;
+using Test.Application.Rabbit;
 using YAMCqrs.Core.Abstractions;
 
 namespace Test.Api;
@@ -83,6 +84,25 @@ public sealed class MyController(IDispatcher dispatcher) : ControllerBase
         var f = new Faker();
 
         var result = await dispatcher.SendAsync(new KafkaCommand { Name = f.Name.FirstName() }, CancellationToken.None);
+
+        if (result.IsFailure)
+        {
+            return this.BadRequest(result.Error);
+        }
+
+        return this.Ok(result.Value);
+    }
+
+    /// <summary>
+    /// Basic implementation for send event using Rabbit.
+    /// </summary>
+    /// <returns>Returns 200 OK if the command is successful, otherwise returns 400 Bad Request with the error message.</returns>
+    [HttpPost("RabbitEvent")]
+    public async Task<IActionResult> PostRabbitEvent()
+    {
+        var f = new Faker();
+
+        var result = await dispatcher.SendAsync(new RabbitCommand { Name = f.Name.FirstName() }, CancellationToken.None);
 
         if (result.IsFailure)
         {

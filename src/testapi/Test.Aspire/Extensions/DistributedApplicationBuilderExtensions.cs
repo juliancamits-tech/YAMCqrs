@@ -3,7 +3,7 @@
 internal static class DistributedApplicationBuilderExtensions
 {
     public const string USERNAME = "admin";
-    public const string PASSWORD = "StrongPassword123++";
+    public const string PASSWORD = "StrongPassword123";
 
     private static IResourceBuilder<ParameterResource>? saUser;
     private static IResourceBuilder<ParameterResource>? saPwd;
