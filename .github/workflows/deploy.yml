@@ -1,4 +1,4 @@
-name: Auto Deploy YAMCqrs Packages
+name: YAMCqrs
 
 # =========================================================
 # TRIGGERS
@@ -29,18 +29,32 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
+      id-token: write
       contents: write
 
     steps:
+
+      # =====================================================
+      # CHECKOUT
+      # =====================================================
+
       - name: Checkout Code
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
+      # =====================================================
+      # SETUP .NET
+      # =====================================================
+
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: "10.0.x"
+
+      # =====================================================
+      # CACHE NUGET
+      # =====================================================
 
       - name: Cache NuGet packages
         uses: actions/cache@v5
@@ -50,7 +64,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
-      # 1. Extraer versión centralizada
+      # =====================================================
+      # EXTRACT VERSION
+      # =====================================================
+      
       - name: Extract Version
         id: get_version
         run: |
@@ -76,7 +93,10 @@ jobs:
           echo "- Targets File: \`$TARGETS_FILE\`" >> $GITHUB_STEP_SUMMARY
           echo "- Detected Version: \`$VERSION\`" >> $GITHUB_STEP_SUMMARY
 
-      # 2. Verificar si la versión ya existe en NuGet.org
+      # =====================================================
+      # CHECK NUGET EXISTENCE
+      # =====================================================
+      
       - name: Check if Version Exists on NuGet.org
         id: check_nuget
         run: |
@@ -99,21 +119,17 @@ jobs:
             echo "Publishing version \`${{ steps.get_version.outputs.current_version }}\` to NuGet.org." >> $GITHUB_STEP_SUMMARY
           fi
 
-      # 3. Validar API Key
-      - name: Validate NuGet API Key
-        if: steps.check_nuget.outputs.skip_deploy == 'false'
-        run: |
-          if [ -z "${{ secrets.NUGET_API_KEY }}" ]; then
-            echo "NUGET_API_KEY no configurada"
-            exit 1
-          fi
-
-      # 4. Restaurar dependencias
+      # =====================================================
+      # RESTORE
+      # =====================================================
+      
       - name: Restore Dependencies
         if: steps.check_nuget.outputs.skip_deploy == 'false'
         run: dotnet restore ./src/solution.slnx
 
-      # 5. Ejecutar tests
+      # =====================================================
+      # TEST
+      # =====================================================
       - name: Run Tests
         if: steps.check_nuget.outputs.skip_deploy == 'false'
         run: dotnet test ./src/solution.slnx --configuration Release --no-restore
@@ -171,7 +187,10 @@ jobs:
           echo "- Packages published successfully." >> $GITHUB_STEP_SUMMARY
           echo "- Symbols (.snupkg) included for SourceLink debugging." >> $GITHUB_STEP_SUMMARY
 
-      # 8. Crear tag Git
+      # =====================================================
+      # GIT TAG
+      # =====================================================
+      
       - name: Create Git Tag
         if: steps.check_nuget.outputs.skip_deploy == 'false'
         run: |
@@ -193,7 +212,10 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "- Created tag: \`v${{ steps.get_version.outputs.current_version }}\`" >> $GITHUB_STEP_SUMMARY
 
-      # 9. Workflow final summary
+      # =====================================================
+      # FINAL SUMMARY
+      # =====================================================
+      
       - name: Final Summary
         if: steps.check_nuget.outputs.skip_deploy == 'false'
         run: |
